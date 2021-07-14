@@ -1,0 +1,27 @@
+{
+  "name": "offset-fire-dashboard",
+  "version": "1.0.0",
+  "description": "tracking and visualizing fires in offset projects",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "freeman-lab",
+  "license": "MIT",
+  "dependencies": {
+    "@carbonplan/charts": "^2.0.0",
+    "@carbonplan/components": "^8.0.0",
+    "@carbonplan/theme": "^6.0.1",
+    "@theme-ui/color": "^0.10.0",
+    "d3-fetch": "^2.0.0",
+    "d3-scale": "^3.2.3",
+    "d3-shape": "^2.1.0",
+    "mapbox-gl": "^1.13.1",
+    "next": "^11.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "theme-ui": "^0.10.0"
+  }
+}
