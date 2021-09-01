@@ -20,7 +20,8 @@ const FireMap = () => {
   const zoomOut = () => {
     map.flyTo({
       center: centerZoomOut,
-      zoom: 7.5671898972915885,
+      //zoom: 7.5671898972915885,
+      zoom: 7.790859367631338,
       essential: true,
     })
   }
@@ -46,21 +47,18 @@ const FireMap = () => {
   useEffect(() => {
     const filter = ['!=', 'NAME', 'Corvallis']
 
-    let centerZoomOut = [-121.23942315702305, 42.68700925593174]
-    let centerZoomIn = [-121.12848897188206, 42.68166705323543]
+    // let centerZoomOut = [-121.23942315702305, 42.68700925593174]
+    // let centerZoomIn = [-121.12848897188206, 42.68166705323543]
 
-    if (window.matchMedia('(min-width: 640px)').matches) {
-    } else {
-      // different center on small screens
-      centerZoomOut = [-121.58549497082685, 45.12433103370327]
-      centerZoomIn = [-121.65406393004127, 44.751312650390256]
-    }
+    let centerZoomOut = [-118.31337286758355, 48.03257407875702]
+    let centerZoomIn = [-118.63421286461073, 48.16685943347747]
 
     const map = new mapboxgl.Map({
       container: container.current,
       style: style,
       center: centerZoomOut,
-      zoom: 7.5671898972915885,
+      //zoom: 7.5671898972915885,
+      zoom: 7.790859367631338,
       minZoom: 3,
       maxZoom: 9,
       maxBounds: [
@@ -84,10 +82,10 @@ const FireMap = () => {
       map.setFilter('places-points', filter)
     })
 
-    // map.on('move', () => {
-    //   console.log(map.getCenter())
-    //   console.log(map.getZoom())
-    // })
+    map.on('move', () => {
+      console.log(map.getCenter())
+      console.log(map.getZoom())
+    })
 
     return function cleanup() {
       setMap(null)
@@ -104,12 +102,30 @@ const FireMap = () => {
         position: 'relative',
       }}
     >
-      <Divider />
+      <Box
+        sx={{
+          pl: [1],
+          pt: [2],
+          fontSize: [3],
+          fontFamily: 'mono',
+          letterSpacing: 'mono',
+          position: 'absolute',
+          left: '20px',
+          //right: '50px',
+          bottom: '80px',
+          textAlign: 'right',
+          zIndex: 5000,
+        }}
+      >
+        JUL 20 2021
+      </Box>
+      <Divider sx={{ pb: [2] }} />
       <Box
         ref={container}
         sx={{
           width: '100%',
-          height: '500px',
+          //height: '500px',
+          height: '430px',
           'canvas.mapboxgl-canvas:focus': {
             outline: 'none',
           },
@@ -138,9 +154,10 @@ const FireMap = () => {
             letterSpacing: 'smallcaps',
           }}
         >
-          JUL 13 2021
+          JUL 14 2021
         </Box>
-        <Box/>
+
+        <Box />
         <Box
           sx={{
             fontSize: [2, 2, 2, 3],

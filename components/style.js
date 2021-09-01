@@ -11,11 +11,11 @@ const style = {
     },
     project: {
       type: 'geojson',
-      data: `https://carbonplan.blob.core.windows.net/carbonplan-forests/offsets/database/projects/ACR273/shape.json`,
+      data: `https://carbonplan.blob.core.windows.net/carbonplan-forests/offsets/database/projects/ACR255/shape.json`,
     },
     fires: {
       type: 'geojson',
-      data: `https://storage.googleapis.com/carbonplan-research/offset-fires/bootleg-fire-07-13-2021.geojson`,
+      data: `https://storage.googleapis.com/carbonplan-research/offset-fires/ACR255_07-20-2021.json`,
     },
     'fire-label': {
       type: 'geojson',
@@ -25,11 +25,13 @@ const style = {
           {
             type: 'Feature',
             properties: {
-              description: 'BOOTLEG FIRE',
+              //description: 'BOOTLEG FIRE',
+              description: 'Chuweah \n Creek Fire',
             },
             geometry: {
               type: 'Point',
-              coordinates: [-122.03942315702305, 42.38700925593174],
+              //coordinates: [-122.03942315702305, 42.38700925593174],
+              coordinates: [-119.31337286758355, 47.73257407875702],
             },
           },
         ],
@@ -43,11 +45,13 @@ const style = {
           {
             type: 'Feature',
             properties: {
-              description: 'PROJECT\nACR273',
+              //description: 'PROJECT\nACR273',
+              description: 'PROJECT\nACR255',
             },
             geometry: {
               type: 'Point',
-              coordinates: [-120.83942315702305, 43.08700925593174],
+              //coordinates: [-120.83942315702305, 43.08700925593174],
+              coordinates: [-118.41337286758355, 47.93257407875702],
             },
           },
         ],
@@ -201,23 +205,6 @@ const style = {
       },
     },
     {
-      id: 'project-label',
-      type: 'symbol',
-      source: 'project-label',
-      paint: {
-        'text-color': 'white',
-        'text-opacity': 0,
-      },
-      layout: {
-        'text-ignore-placement': true,
-        'text-font': ['relative-faux-book'],
-        'text-size': 20,
-        'text-justify': 'left',
-        'text-offset': [4.25, 2],
-        'text-field': ['format', ['get', 'description']],
-      },
-    },
-    {
       id: 'fire-label',
       type: 'symbol',
       source: 'fire-label',
@@ -232,6 +219,25 @@ const style = {
         'text-justify': 'left',
         'text-offset': [4, -6.25],
         'text-field': ['format', ['get', 'description']],
+        'text-allow-overlap': true,
+      },
+    },
+    {
+      id: 'project-label',
+      type: 'symbol',
+      source: 'project-label',
+      paint: {
+        'text-color': 'white',
+        'text-opacity': 0,
+      },
+      layout: {
+        'text-ignore-placement': true,
+        'text-font': ['relative-faux-book'],
+        'text-size': 20,
+        'text-justify': 'left',
+        'text-offset': [4.25, 2],
+        'text-field': ['format', ['get', 'description']],
+        'text-allow-overlap': true,
       },
     },
   ],

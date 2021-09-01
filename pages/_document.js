@@ -5,7 +5,11 @@ import { InitializeColorMode } from 'theme-ui'
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang='en' className='no-focus-outline'>
+      <Html
+        lang='en'
+        style={{ backgroundColor: 'rgb(240, 240, 240)' }}
+        className='no-focus-outline'
+      >
         <Head>
           <Tracking />
         </Head>
