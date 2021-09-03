@@ -39,7 +39,8 @@ def load_simple_project(project, distance=None):
 
 
 def make_project_fires(fires, project_shape, distance=None):
-    fires_proj = geopandas.clip(fires, project_shape.envelope)
+    #fires_proj = geopandas.clip(fires, project_shape.envelope)
+    fires_proj = fires[fires.intersects(project_shape.envelope.geometry.loc[0])]
     fires_proj['year'] = pd.to_datetime(fires_proj['Ig_Date']).dt.year
     fire_years = fires_proj[['year', 'geometry']].dissolve(by='year').reset_index()
     fire_years = buffer_and_simplify(fire_years, distance=distance)
