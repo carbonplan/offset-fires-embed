@@ -3,7 +3,8 @@ import { Layout, Row, Column } from '@carbonplan/components'
 
 const Index = () => {
   return (
-    <Box sx={{ mx: '3vw' }}>
+  	<Box sx={{mx: 'auto', maxWidth: '1680px'}} > 
+    <Box sx={{ mx: '3vw',}}>
       <Box
         sx={{
           color: '#3c3830',
@@ -117,6 +118,7 @@ const Index = () => {
           </Box>
         </Box>
       </Box>
+    </Box>
     </Box>
   )
 }
