@@ -1,7 +1,5 @@
 import { Box, Themed } from 'theme-ui'
 import { Layout, Row, Column } from '@carbonplan/components'
-import FireMap from '../components/fire-map'
-import ProjectionTimeseries from '../components/projection-timeseries'
 
 const Index = () => {
   return (
@@ -69,7 +67,7 @@ const Index = () => {
                 mr: [0, 'auto', 0, 0],
                 ml: [0, 'auto', 0, 'calc(-300px - 3vw)'],
                 border: 'none',
-                height: '200px',
+                height: '800px',
               }}
             />
             <Box
