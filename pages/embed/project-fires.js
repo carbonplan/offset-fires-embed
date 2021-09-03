@@ -41,7 +41,7 @@ const years = Array(38).fill(0).map((d,i) => i + 1984)
 
 const Index = () => {
   const [year, setYear] = useState(5)
-  const [zoom, setZoom] = useState(false)
+  const [zoom, setZoom] = useState(true)
 
   return (
     <Box sx={{ width: '100%', height: '100%', bg: 'background', p: [5] }}>
