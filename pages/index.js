@@ -96,7 +96,7 @@ const Index = () => {
                   maxWidth: '600px',
                   mx: 'auto',
                   border: 'none',
-                  height: '200px',
+                  height: '500px',
                 }}
               />
               <Box

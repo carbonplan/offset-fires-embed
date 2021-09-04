@@ -5,7 +5,7 @@ import { useSpring, animated } from '@react-spring/web'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
 import { feature } from 'topojson-client'
 
-const Project = ({ data, year, zoom }) => {
+const Project = ({ data, year, zoom, label = true, border = true }) => {
   const [projectPath, setProjectPath] = useState(null)
   const [firePaths, setFirePaths] = useState({})
   const [statesPath, setStatesPath] = useState(null)
@@ -63,22 +63,29 @@ const Project = ({ data, year, zoom }) => {
 
   return (
     <>
-      <Box sx={{ pb: [2] }}>
-        <Box
-          as='span'
-          sx={{ color: 'secondary', fontFamily: 'mono', letterSpacing: 'mono' }}
-        >
-          {number}
+      {label && (
+        <Box sx={{ pb: [2] }}>
+          <Box
+            as='span'
+            sx={{
+              color: 'secondary',
+              fontFamily: 'mono',
+              letterSpacing: 'mono',
+            }}
+          >
+            {number}
+          </Box>
+          <Box as='span' sx={{ pl: [2], fontSize: [4, 4, 4, 5] }}>
+            {name}
+          </Box>
         </Box>
-        <Box as='span' sx={{ pl: [2], fontSize: [4, 4, 4, 5] }}>
-          {name}
-        </Box>
-      </Box>
+      )}
       <Box
         sx={{
           mt: [2],
           mb: [4],
-          border: ({ colors }) => `solid 1px ${colors.muted}`,
+          border: ({ colors }) =>
+            border ? `solid 1px ${colors.muted}` : 'none',
         }}
       >
         <Box as='svg' viewBox='0 0 400 200' sx={{ mb: '-4px' }}>
@@ -96,7 +103,7 @@ const Project = ({ data, year, zoom }) => {
                     <Box
                       key={i}
                       as='path'
-                      sx={{ stroke: 'none', fill: 'red' }}
+                      sx={{ stroke: 'none', fill: 'red', opacity: 0.8 }}
                       d={firePaths[i]}
                     />
                   )

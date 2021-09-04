@@ -56,22 +56,21 @@ const Minimap = ({ data }) => {
           />
           {data.map((d) => {
             return (
-              <>
-                <Box
-                  as='text'
-                  sx={{
-                    stroke: 'none',
-                    fill: 'secondary',
-                    fontFamily: 'mono',
-                    fontSize: [4],
-                  }}
-                  dx={-7}
-                  dy={9}
-                  transform={`translate(${projection(d.centroid).join(',')})`}
-                >
-                  {d.number}
-                </Box>
-              </>
+              <Box
+                key={d.number}
+                as='text'
+                sx={{
+                  stroke: 'none',
+                  fill: 'secondary',
+                  fontFamily: 'mono',
+                  fontSize: [4],
+                }}
+                dx={-7}
+                dy={9}
+                transform={`translate(${projection(d.centroid).join(',')})`}
+              >
+                {d.number}
+              </Box>
             )
           })}
         </g>

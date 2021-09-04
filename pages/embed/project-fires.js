@@ -72,13 +72,13 @@ const Index = () => {
               py: [3],
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            Here we show the overlap between forest offset projects in
+            California, Oregon, and Washington and historical fires. Fire
+            perimeters are from the MTBS database (1984 through 2018) and from
+            NIFC (2019 and 2020, in progress). Fires are shown for all years up
+            to and including the year selected using the slider at the bottom.
+            You can use the plus and minus to zoom in and out and help orient
+            the location of each project.
           </Box>
         </Column>
         <Column start={[1, 3, 3, 3]} width={[2, 1, 1, 1]}>
