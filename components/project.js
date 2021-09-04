@@ -5,10 +5,18 @@ import { useSpring, animated } from '@react-spring/web'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
 import { feature } from 'topojson-client'
 
-const Project = ({ data, year, zoom, label = true, border = true }) => {
-  const [projectPath, setProjectPath] = useState(null)
+const Project = ({
+  data,
+  year,
+  zoom,
+  states,
+  showStates = true,
+  label = true,
+  border = true,
+}) => {
+  const [projectPath, setProjectPath] = useState()
   const [firePaths, setFirePaths] = useState({})
-  const [statesPath, setStatesPath] = useState(null)
+  const [statesPath, setStatesPath] = useState()
 
   const { transform } = useSpring({
     config: { duration: 500, mass: 1, tension: 280, friction: 120 },
@@ -21,12 +29,10 @@ const Project = ({ data, year, zoom, label = true, border = true }) => {
   const { number, id, name } = data
 
   useEffect(() => {
+    if (showStates && !states) return
     const prefix =
       'https://storage.googleapis.com/carbonplan-research/offset-fires/grist/projects/'
     const url = prefix + `${id}/shape.json`
-
-    const statesUrl =
-      'https://storage.googleapis.com/carbonplan-data/raw/us-atlas/states-10m.json'
 
     json(url).then((data) => {
       const projection = geoAlbersUsa().fitExtent(
@@ -39,6 +45,7 @@ const Project = ({ data, year, zoom, label = true, border = true }) => {
       setProjectPath(
         geoPath().projection(projection)(data.features[0].geometry)
       )
+      if (showStates) setStatesPath(geoPath().projection(projection)(states))
       const fireUrl = prefix + `${id}/fires_v4.json`
       json(fireUrl).then((fireData) => {
         const firePathsTmp = {}
@@ -50,16 +57,9 @@ const Project = ({ data, year, zoom, label = true, border = true }) => {
             )
           })
         setFirePaths(firePathsTmp)
-        json(statesUrl).then((statesData) => {
-          setStatesPath(
-            geoPath().projection(projection)(
-              feature(statesData, statesData.objects.states)
-            )
-          )
-        })
       })
     })
-  }, [])
+  }, [states])
 
   return (
     <>
@@ -108,17 +108,19 @@ const Project = ({ data, year, zoom, label = true, border = true }) => {
                     />
                   )
                 })}
-              <Box
-                as='path'
-                sx={{
-                  opacity: 1,
-                  strokeWidth: 0.5,
-                  stroke: 'primary',
-                  fill: 'none',
-                  vectorEffect: 'non-scaling-stroke',
-                }}
-                d={statesPath}
-              />
+              {showStates && (
+                <Box
+                  as='path'
+                  sx={{
+                    opacity: 1,
+                    strokeWidth: 0.5,
+                    stroke: 'primary',
+                    fill: 'none',
+                    vectorEffect: 'non-scaling-stroke',
+                  }}
+                  d={statesPath}
+                />
+              )}
             </g>
           </animated.g>
         </Box>

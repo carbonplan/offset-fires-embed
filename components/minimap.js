@@ -6,23 +6,7 @@ import { feature } from 'topojson-client'
 
 const projection = geoAlbersUsa().scale(1300).translate([487.5, 305])
 
-const Minimap = ({ data }) => {
-  const [country, setCountry] = useState(null)
-  const [states, setStates] = useState(null)
-
-  useEffect(() => {
-    const prefix =
-      'https://storage.googleapis.com/carbonplan-data/raw/us-atlas/'
-    const urlCountry = prefix + 'conus-albers-simplified.json'
-    const urlStates = prefix + 'states-albers-10m.json'
-    json(urlCountry).then((us) => {
-      setCountry(geoPath()(feature(us, us.objects.states)))
-    })
-    json(urlStates).then((us) => {
-      setCountry(geoPath()(feature(us, us.objects.states)))
-    })
-  }, [])
-
+const Minimap = ({ data, states }) => {
   return (
     <Box sx={{ pl: [0, 0, 8, 8] }}>
       <Box
@@ -38,16 +22,7 @@ const Minimap = ({ data }) => {
         >
           <Box
             as='path'
-            d={country}
-            sx={{
-              stroke: 'secondary',
-              strokeWidth: 0.5,
-              vectorEffect: 'non-scaling-stroke',
-            }}
-          />
-          <Box
-            as='path'
-            d={states}
+            d={geoPath().projection(projection)(states)}
             sx={{
               stroke: 'secondary',
               strokeWidth: 0.5,

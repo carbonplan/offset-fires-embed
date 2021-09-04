@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box, Flex } from 'theme-ui'
 import { Row, Column, Slider } from '@carbonplan/components'
 import Minimap from '../../components/minimap'
 import Project from '../../components/project'
+import useStates from '../../components/use-states'
 
 const projects = [
   {
@@ -50,6 +51,7 @@ const years = Array(38)
 const Index = () => {
   const [year, setYear] = useState(5)
   const [zoom, setZoom] = useState('near')
+  const states = useStates()
 
   return (
     <Box sx={{ width: '100%', height: '100%', bg: 'background', p: [5] }}>
@@ -72,8 +74,8 @@ const Index = () => {
               py: [3],
             }}
           >
-            Here we show the overlap between forest offset projects in
-            California, Oregon, and Washington and historical fires. Fire
+            Several forest offset projects in California, Oregon, and Washington
+            are in locations with a substantial record of historical fire. Fire
             perimeters are from the MTBS database (1984 through 2018) and from
             NIFC (2019 and 2020, in progress). Fires are shown for all years up
             to and including the year selected using the slider at the bottom.
@@ -82,27 +84,27 @@ const Index = () => {
           </Box>
         </Column>
         <Column start={[1, 3, 3, 3]} width={[2, 1, 1, 1]}>
-          <Minimap data={projects} />
+          <Minimap data={projects} states={states} />
         </Column>
       </Row>
       <Row columns={[2, 3, 3, 3]}>
         <Column start={1} width={1}>
-          <Project data={projects[0]} year={year} zoom={zoom} />
+          <Project data={projects[0]} states={states} year={year} zoom={zoom} />
         </Column>
         <Column start={2} width={1}>
-          <Project data={projects[1]} year={year} zoom={zoom} />
+          <Project data={projects[1]} states={states} year={year} zoom={zoom} />
         </Column>
         <Column start={[1, 3, 3, 3]} width={1}>
-          <Project data={projects[2]} year={year} zoom={zoom} />
+          <Project data={projects[2]} states={states} year={year} zoom={zoom} />
         </Column>
         <Column start={[2, 1, 1, 1]} width={1}>
-          <Project data={projects[3]} year={year} zoom={zoom} />
+          <Project data={projects[3]} states={states} year={year} zoom={zoom} />
         </Column>
         <Column start={[1, 2, 2, 2]} width={1}>
-          <Project data={projects[4]} year={year} zoom={zoom} />
+          <Project data={projects[4]} states={states} year={year} zoom={zoom} />
         </Column>
         <Column start={[2, 3, 3, 3]} width={1}>
-          <Project data={projects[5]} year={year} zoom={zoom} />
+          <Project data={projects[5]} states={states} year={year} zoom={zoom} />
         </Column>
       </Row>
       <Row columns={[2, 3, 3, 3]} sx={{ mt: [3], mb: [0, 3, 3, 3] }}>

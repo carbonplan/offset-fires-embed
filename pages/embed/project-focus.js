@@ -5,6 +5,7 @@ import Project from '../../components/project'
 const Index = () => {
   const year = 38
   const zoom = 'near'
+
   return (
     <Box
       sx={{ width: '100%', height: '100%', bg: 'background', p: [5], pt: [4] }}
@@ -61,6 +62,7 @@ const Index = () => {
           }}
           year={year}
           zoom={zoom}
+          showStates={false}
         />
       </Box>
       <Row columns={2} sx={{ mb: [2] }}>
