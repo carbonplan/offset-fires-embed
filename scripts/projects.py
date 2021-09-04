@@ -3,6 +3,7 @@ import click
 import fsspec
 import geopandas
 import pandas as pd
+from shapely.geometry import box
 
 crs = "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 +lat_2=45.5 +x_0=0 +y_0=0 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"
 
@@ -15,6 +16,15 @@ simplification = {
     'ACR260': 100,
     'CAR1174': 10,
     'CAR1046': 10,
+}
+
+simplification_fire = {
+    'ACR273': 3000,
+    'ACR274': 500,
+    'ACR255': 500,
+    'ACR260': 500,
+    'CAR1174': 250,
+    'CAR1046': 250,
 }
 
 
@@ -38,9 +48,16 @@ def load_simple_project(project, distance=None):
     return gdf
 
 
-def make_project_fires(fires, project_shape, distance=None):
-    #fires_proj = geopandas.clip(fires, project_shape.envelope)
-    fires_proj = fires[fires.intersects(project_shape.envelope.geometry.loc[0])]
+def make_project_fires(fires, project_shape, buffer=None, scale=1, distance=None):
+    center = project_shape.centroid[0]
+    bounds = project_shape.envelope[0].bounds
+    if buffer is None:
+        deltay = (bounds[3] - bounds[1]) / 2
+        buffer = [deltay * 2 * scale, deltay * scale]
+    envelope = box(
+        center.x - buffer[0], center.y - buffer[1], center.x + buffer[0], center.y + buffer[1]
+    )
+    fires_proj = fires[fires.intersects(envelope)]
     fires_proj['year'] = pd.to_datetime(fires_proj['Ig_Date']).dt.year
     fire_years = fires_proj[['year', 'geometry']].dissolve(by='year').reset_index()
     fire_years = buffer_and_simplify(fire_years, distance=distance)
@@ -59,19 +76,22 @@ def main(upload_to):
         print(f'processing project {project}')
 
         distance = simplification.get(project, 250)
+        distance_fire = simplification_fire.get(project, 250)
 
         print('-->loading and simplifying project shape')
         project_shape = load_simple_project(project, distance=distance)
 
         print('-->creating and simplifying fire shapes')
-        fire_shape = make_project_fires(fires, project_shape, distance=distance)
+        fire_shape = make_project_fires(
+            fires, project_shape, distance=distance_fire, buffer=None, scale=4
+        )
 
         if upload_to:
             print(f'-->writing shapes to {upload_to}/{project}')
             with fsspec.open(f'{upload_to}/{project}/shape.json', 'w') as f:
                 f.write(project_shape.to_crs('epsg:4326').to_json())
 
-            with fsspec.open(f'{upload_to}/{project}/fires.json', 'w') as f:
+            with fsspec.open(f'{upload_to}/{project}/fires_v4.json', 'w') as f:
                 f.write(fire_shape.to_crs('epsg:4326').to_json())
 
 

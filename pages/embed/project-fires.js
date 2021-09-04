@@ -9,39 +9,47 @@ const projects = [
     id: 'ACR273',
     name: 'Klamath East',
     number: 1,
+    centroid: [-121.22172, 42.72968],
   },
   {
     id: 'ACR274',
     name: 'Klamath West',
     number: 2,
+    centroid: [-122.11735, 42.16019],
   },
   {
     id: 'ACR255',
     name: 'Colville',
     number: 3,
+    centroid: [-118.63739, 48.25508],
   },
   {
     id: 'ACR260',
     name: 'Warm Springs',
     number: 4,
+    centroid: [-121.6897, 44.75978],
   },
   {
     id: 'CAR1174',
     name: 'Eddie Ranch',
     number: 5,
+    centroid: [-123.09825, 39.37204],
   },
   {
     id: 'CAR1046',
     name: 'Trinity',
     number: 6,
+    centroid: [-123.49326, 40.55713],
   },
 ]
 
-const years = Array(38).fill(0).map((d,i) => i + 1984)
+const years = Array(38)
+  .fill(0)
+  .map((d, i) => i + 1984)
 
 const Index = () => {
   const [year, setYear] = useState(5)
-  const [zoom, setZoom] = useState(true)
+  const [zoom, setZoom] = useState('near')
 
   return (
     <Box sx={{ width: '100%', height: '100%', bg: 'background', p: [5] }}>
@@ -74,7 +82,7 @@ const Index = () => {
           </Box>
         </Column>
         <Column start={[1, 3, 3, 3]} width={[2, 1, 1, 1]}>
-          <Minimap />
+          <Minimap data={projects} />
         </Column>
       </Row>
       <Row columns={[2, 3, 3, 3]}>
@@ -117,29 +125,31 @@ const Index = () => {
                 value={year}
                 step={1}
                 min={0}
-                max={years.length-1}
+                max={years.length - 1}
                 onChange={(e) => setYear(parseFloat(e.target.value))}
               />
-              <Box sx={{mt: [3]}}>
+              <Box sx={{ mt: [3] }}>
                 {years.map((d, i) => {
-                   if (i % 5 == 0) {
-                   	return <Box
-                   	key={i}
-                    as='span'
-                    sx={{
-                      color: 'secondary',
-                      fontFamily: 'mono',
-                      letterSpacing: 'mono',
-                      fontSize: [1, 1, 1, 2],
-                      position: 'absolute',
-                      display: 'inline-block',
-                      transform: 'translateX(-50%)',
-                      left: `${i * (97 / (years.length-1)) + 1.5}%`,
-                    }}
-                  >
-                    {d}
-                  </Box>
-                }
+                  if (i % 5 == 0) {
+                    return (
+                      <Box
+                        key={i}
+                        as='span'
+                        sx={{
+                          color: 'secondary',
+                          fontFamily: 'mono',
+                          letterSpacing: 'mono',
+                          fontSize: [1, 1, 1, 2],
+                          position: 'absolute',
+                          display: 'inline-block',
+                          transform: 'translateX(-50%)',
+                          left: `${i * (97 / (years.length - 1)) + 1.5}%`,
+                        }}
+                      >
+                        {d}
+                      </Box>
+                    )
+                  }
                 })}
               </Box>
             </Box>
@@ -161,7 +171,7 @@ const Index = () => {
             <Box
               as='button'
               onClick={() => {
-                setZoom(false)
+                setZoom('far')
               }}
               sx={{
                 color: 'primary',
@@ -189,7 +199,7 @@ const Index = () => {
             <Box
               as='button'
               onClick={() => {
-                setZoom(true)
+                setZoom('near')
               }}
               sx={{
                 color: 'primary',

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Box } from 'theme-ui'
 import { json } from 'd3-fetch'
+import { useSpring, animated } from '@react-spring/web'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
 import { feature } from 'topojson-client'
 
@@ -8,6 +9,14 @@ const Project = ({ data, year, zoom }) => {
   const [projectPath, setProjectPath] = useState(null)
   const [firePaths, setFirePaths] = useState({})
   const [statesPath, setStatesPath] = useState(null)
+
+  const { transform } = useSpring({
+    config: { duration: 500, mass: 1, tension: 280, friction: 120 },
+    transform:
+      zoom === 'near'
+        ? 'scale(1) translate(0,0)'
+        : 'scale(0.3) translate(500,250)',
+  })
 
   const { number, id, name } = data
 
@@ -30,9 +39,8 @@ const Project = ({ data, year, zoom }) => {
       setProjectPath(
         geoPath().projection(projection)(data.features[0].geometry)
       )
-      const fireUrl = prefix + `${id}/fires.json`
+      const fireUrl = prefix + `${id}/fires_v4.json`
       json(fireUrl).then((fireData) => {
-        console.log(fireData)
         const firePathsTmp = {}
         Array(38)
           .fill(0)
@@ -74,15 +82,7 @@ const Project = ({ data, year, zoom }) => {
         }}
       >
         <Box as='svg' viewBox='0 0 400 200' sx={{ mb: '-4px' }}>
-          <Box
-            as='g'
-            transform={
-              zoom
-                ? 'scale(1.0) translate(0,0)'
-                : 'scale(0.2) translate(800,400)'
-            }
-            sx={{ transition: 'transform(0.5s)' }}
-          >
+          <animated.g transform={transform}>
             <g strokeLinejoin='round' strokeLinecap='round'>
               <Box
                 as='path'
@@ -104,7 +104,7 @@ const Project = ({ data, year, zoom }) => {
               <Box
                 as='path'
                 sx={{
-                  opacity: zoom ? 0 : 1,
+                  opacity: 1,
                   strokeWidth: 0.5,
                   stroke: 'primary',
                   fill: 'none',
@@ -113,7 +113,7 @@ const Project = ({ data, year, zoom }) => {
                 d={statesPath}
               />
             </g>
-          </Box>
+          </animated.g>
         </Box>
       </Box>
     </>
