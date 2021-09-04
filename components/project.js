@@ -75,7 +75,7 @@ const Project = ({ data, year, zoom, label = true, border = true }) => {
           >
             {number}
           </Box>
-          <Box as='span' sx={{ pl: [2], fontSize: [4, 4, 4, 5] }}>
+          <Box as='span' sx={{ pl: [2], fontSize: [3, 4, 4, 5] }}>
             {name}
           </Box>
         </Box>

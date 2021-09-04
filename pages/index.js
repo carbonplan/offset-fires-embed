@@ -68,7 +68,7 @@ const Index = () => {
                   mr: [0, 'auto', 0, 0],
                   ml: [0, 'auto', 0, 'calc(-300px - 3vw)'],
                   border: 'none',
-                  height: '800px',
+                  height: ['1090px', '800px', '800px', '800px'],
                 }}
               />
               <Box
@@ -96,7 +96,7 @@ const Index = () => {
                   maxWidth: '600px',
                   mx: 'auto',
                   border: 'none',
-                  height: '500px',
+                  height: ['420px', '500px', '500px', '500px'],
                 }}
               />
               <Box

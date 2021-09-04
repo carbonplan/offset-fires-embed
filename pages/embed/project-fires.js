@@ -105,8 +105,8 @@ const Index = () => {
           <Project data={projects[5]} year={year} zoom={zoom} />
         </Column>
       </Row>
-      <Row columns={[2, 3, 3, 3]} sx={{ mt: [3], mb: [3] }}>
-        <Column start={1} width={2}>
+      <Row columns={[2, 3, 3, 3]} sx={{ mt: [3], mb: [0, 3, 3, 3] }}>
+        <Column start={1} width={[3, 2, 2, 2]}>
           <Flex>
             <Box
               sx={{
@@ -155,14 +155,23 @@ const Index = () => {
             </Box>
           </Flex>
         </Column>
-        <Column start={3} width={1}>
-          <Flex sx={{ justifyContent: 'flex-end' }}>
+        <Column start={[1, 3, 3, 3]} width={[3, 1, 1, 1]}>
+          <Flex
+            sx={{
+              justifyContent: [
+                'flex-start',
+                'flex-end',
+                'flex-end',
+                'flex-end',
+              ],
+            }}
+          >
             <Box
               sx={{
                 textTransform: 'uppercase',
                 fontFamily: 'heading',
                 letterSpacing: 'smallcaps',
-                mt: '-2px',
+                mt: [5, '-2px', '-2px', '-2px'],
                 pr: [2],
               }}
             >
@@ -183,7 +192,7 @@ const Index = () => {
                 textTransform: 'uppercase',
                 fontFamily: 'body',
                 letterSpacing: 'smallcaps',
-                mt: '-14px',
+                mt: ['20px', '-14px', '-14px', '-14px'],
                 px: [2],
                 fontSize: [5, 5, 5, 6],
                 transition: 'color 0.15s',
@@ -211,7 +220,7 @@ const Index = () => {
                 textTransform: 'uppercase',
                 fontFamily: 'body',
                 letterSpacing: 'smallcaps',
-                mt: '-14px',
+                mt: ['20px', '-14px', '-14px', '-14px'],
                 px: [2],
                 fontSize: [5, 5, 5, 6],
                 transition: 'color 0.15s',
