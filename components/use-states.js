@@ -3,9 +3,9 @@ import { feature } from 'topojson-client'
 import { json } from 'd3-fetch'
 
 const useStates = () => {
-	const [states, setStates] = useState()
+  const [states, setStates] = useState()
 
-	useEffect(() => {
+  useEffect(() => {
     const prefix =
       'https://storage.googleapis.com/carbonplan-data/raw/us-atlas/'
     const url = prefix + 'states-10m.json'
