@@ -66,7 +66,7 @@ def load_mtbs_fires():
     mtbs_colnames = {'Incid_Name': 'name', 'BurnBndAc': 'acres'}
     fires = fires.rename(columns=mtbs_colnames)
     
-    fires['ignite_at'] = fires[‘Ig_Date’].apply(pd.Timestamp)
+    fires['ignite_at'] = fires['Ig_Date'].apply(pd.Timestamp)
 
     return fires.to_crs(crs)[['name', 'acres', 'ignite_at', 'geometry']]
 
