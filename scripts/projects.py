@@ -50,7 +50,7 @@ def load_nifc_fires():
     fires = fires[fires['irwin_FireDiscoveryDateTime'].str[:4].isin(['2020', '2021'])]
 
     fires['ignite_at'] = (
-        fires[‘irwin_FireDiscoveryDateTime’]
+        fires['irwin_FireDiscoveryDateTime']
         .apply(pd.Timestamp)
         .apply(lambda x: pd.Timestamp(x.date()))
     )
