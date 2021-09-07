@@ -37,13 +37,18 @@ def buffer_and_simplify(gdf, distance=None):
 
 
 def load_nifc_fires():
+    '''load nifc data for 2020/2021 fire season
     
-    # https://data-nifc.opendata.arcgis.com/datasets/nifc::wfigs-wildland-fire-perimeters-full-history/about
-
-    nifc_uri = 'https://storage.googleapis.com/carbonplan-data/raw/nifc/nifc_full_history.parquet'
+    NB this is a bit of an undocumented NIFC feature -- the data supposedly only cover 2021 
+    but there are definitely 2020 fires included at the endpoint. 
+    This might not be true in the future.
+    
+    https://data-nifc.opendata.arcgis.com/datasets/nifc::wfigs-wildland-fire-perimeters-full-history/about
+    '''
+    nifc_uri = 'https://storage.googleapis.com/carbonplan-data/raw/nifc/WFIGS_-_Wildland_Fire_Perimeters_Full_History.geojson'
     fires = geopandas.read_file(nifc_uri)
 
-    nifc_colnames = {'poly_incidentName': 'name',
+    nifc_colnames = {'poly_IncidentName': 'name',
                      'poly_Acres_AutoCalc': 'acres'}
     fires = fires.rename(columns=nifc_colnames)
 
@@ -58,6 +63,11 @@ def load_nifc_fires():
     return fires.to_crs(crs)[['name', 'acres', 'ignite_at', 'geometry']]
 
 def load_mtbs_fires():
+    '''
+    load mtbs data
+    
+    Originally from: https://www.mtbs.gov/direct-download
+    '''
     fire_uri = 'https://storage.googleapis.com/carbonplan-data/raw/mtbs/mtbs_perimeter_data/mtbs_perims_DD.json'
     fires = geopandas.read_file(fire_uri)
 
