@@ -96,7 +96,7 @@ const Project = ({
                 sx={{ stroke: 'none', fill: 'primary' }}
                 d={projectPath}
               />
-              {Array(year)
+              {Array(year + 1)
                 .fill(0)
                 .map((d, i) => {
                   return (
