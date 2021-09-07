@@ -36,10 +36,54 @@ def buffer_and_simplify(gdf, distance=None):
     return gdf_out
 
 
-def load_fires():
-    fire_uri = 'https://storage.googleapis.com/carbonplan-data/raw/mtbs/mtbs_perimeter_data/mtbs_perims_DD.json'
-    return geopandas.read_file(fire_uri).to_crs(crs)[['Ig_Date', 'geometry']]
+def load_nifc_fires():
+    '''load nifc data for 2020/2021 fire season
+    
+    NB this is a bit of an undocumented NIFC feature -- the data supposedly only cover 2021 
+    but there are definitely 2020 fires included at the endpoint. 
+    This might not be true in the future.
+    
+    https://data-nifc.opendata.arcgis.com/datasets/nifc::wfigs-wildland-fire-perimeters-full-history/about
+    '''
+    nifc_uri = 'https://storage.googleapis.com/carbonplan-data/raw/nifc/WFIGS_-_Wildland_Fire_Perimeters_Full_History.geojson'
+    fires = geopandas.read_file(nifc_uri)
 
+    nifc_colnames = {'poly_IncidentName': 'name',
+                     'poly_Acres_AutoCalc': 'acres'}
+    fires = fires.rename(columns=nifc_colnames)
+
+    fires = fires[fires['irwin_FireDiscoveryDateTime'].str[:4].isin(['2020', '2021'])]
+
+    fires['ignite_at'] = (
+        fires['irwin_FireDiscoveryDateTime']
+        .apply(pd.Timestamp)
+        .apply(lambda x: pd.Timestamp(x.date()))
+    )
+    
+    return fires.to_crs(crs)[['name', 'acres', 'ignite_at', 'geometry']]
+
+def load_mtbs_fires():
+    '''
+    load mtbs data
+    
+    Originally from: https://www.mtbs.gov/direct-download
+    '''
+    fire_uri = 'https://storage.googleapis.com/carbonplan-data/raw/mtbs/mtbs_perimeter_data/mtbs_perims_DD.json'
+    fires = geopandas.read_file(fire_uri)
+
+    fires = fires[fires['Incid_Type'] == 'Wildfire']
+    
+    mtbs_colnames = {'Incid_Name': 'name', 'BurnBndAc': 'acres'}
+    fires = fires.rename(columns=mtbs_colnames)
+    
+    fires['ignite_at'] = fires['Ig_Date'].apply(pd.Timestamp)
+
+    return fires.to_crs(crs)[['name', 'acres', 'ignite_at', 'geometry']]
+
+def load_fires():
+    nifc = load_nifc_fires()
+    mtbs = load_mtbs_fires()
+    return pd.concat([nifc, mtbs])
 
 def load_simple_project(project, distance=None):
     path = f'https://carbonplan.blob.core.windows.net/carbonplan-forests/offsets/database/projects/{project}/shape.json'
@@ -58,7 +102,7 @@ def make_project_fires(fires, project_shape, buffer=None, scale=1, distance=None
         center.x - buffer[0], center.y - buffer[1], center.x + buffer[0], center.y + buffer[1]
     )
     fires_proj = fires[fires.intersects(envelope)]
-    fires_proj['year'] = pd.to_datetime(fires_proj['Ig_Date']).dt.year
+    fires_proj['year'] = pd.to_datetime(fires_proj['ignite_at']).dt.year
     fire_years = fires_proj[['year', 'geometry']].dissolve(by='year').reset_index()
     fire_years = buffer_and_simplify(fire_years, distance=distance)
     fire_years = fire_years.set_index('year').reindex(years).reset_index()
