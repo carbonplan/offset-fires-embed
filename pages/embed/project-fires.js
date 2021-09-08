@@ -184,6 +184,9 @@ const Index = () => {
                   onTouchStart={() => {
                     setSliderChanging(true)
                   }}
+                  onTouchEnd={() => {
+                    setSliderChanging(false)
+                  }}
                   onMouseDown={() => {
                     setSliderChanging(true)
                   }}
