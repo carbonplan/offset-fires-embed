@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+from functools import lru_cache
+
 import click
 import fsspec
 import geopandas
 import pandas as pd
+import requests
 from shapely.geometry import box
 
 crs = "+proj=aea +lat_0=23 +lon_0=-96 +lat_1=29.5 +lat_2=45.5 +x_0=0 +y_0=0 +ellps=WGS84 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"
@@ -26,6 +29,15 @@ simplification_fire = {
     'CAR1174': 250,
     'CAR1046': 250,
 }
+
+
+@lru_cache
+def load_project_db():
+    retro_uri = requests.get(
+        'https://carbonplan.blob.core.windows.net/carbonplan-forests/offsets/database/forest-offsets-database-v1.0.json'
+    )
+    retro_json = retro_uri.json()
+    return retro_json
 
 
 def buffer_and_simplify(gdf, distance=None):
@@ -91,7 +103,16 @@ def load_simple_project(project, distance=None):
     path = f'https://carbonplan.blob.core.windows.net/carbonplan-forests/offsets/database/projects/{project}/shape.json'
     gdf = geopandas.read_file(path).to_crs(crs)
     gdf = buffer_and_simplify(gdf, distance=distance)
+    attributes = get_project_attributes(project)
+    for k, v in attributes.items():
+        gdf[k] = v
     return gdf
+
+
+def get_project_attributes(opr_id):
+    retro_json = load_project_db()
+    project = [project for project in retro_json if project['opr_id'] == opr_id][0]
+    return {'project_start_date': project['rp_1']['start_date']}
 
 
 def make_project_fires(fires, project_shape, buffer=None, scale=1, distance=None):
