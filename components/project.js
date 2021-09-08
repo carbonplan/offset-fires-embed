@@ -17,6 +17,7 @@ const Project = ({
   const [projectPath, setProjectPath] = useState()
   const [firePaths, setFirePaths] = useState({})
   const [statesPath, setStatesPath] = useState()
+  const [startDate, setStartDate] = useState()
 
   const { transform } = useSpring({
     config: { duration: 500, mass: 1, tension: 280, friction: 120 },
@@ -32,7 +33,7 @@ const Project = ({
     if (showStates && !states) return
     const prefix =
       'https://storage.googleapis.com/carbonplan-research/offset-fires/grist/projects/'
-    const url = prefix + `${id}/shape.json`
+    const url = prefix + `${id}/shape_v8.json`
 
     json(url).then((data) => {
       const projection = geoAlbersUsa().fitExtent(
@@ -42,11 +43,14 @@ const Project = ({
         ],
         data.features[0].geometry
       )
+      setStartDate(
+        parseInt(data.features[0].properties.project_start_date.slice(0, 4))
+      )
       setProjectPath(
         geoPath().projection(projection)(data.features[0].geometry)
       )
       if (showStates) setStatesPath(geoPath().projection(projection)(states))
-      const fireUrl = prefix + `${id}/fires_v5.json`
+      const fireUrl = prefix + `${id}/fires_v8.json`
       json(fireUrl).then((fireData) => {
         const firePathsTmp = {}
         Array(38)
@@ -93,17 +97,26 @@ const Project = ({
             <g strokeLinejoin='round' strokeLinecap='round'>
               <Box
                 as='path'
-                sx={{ stroke: 'none', fill: 'primary' }}
+                sx={{
+                  stroke: 'none',
+                  fill: year + 1 > startDate - 1984 ? 'primary' : 'secondary',
+                  transition: 'fill 0.15s',
+                }}
                 d={projectPath}
               />
-              {Array(year + 1)
+              {Array(38)
                 .fill(0)
                 .map((d, i) => {
                   return (
                     <Box
                       key={i}
                       as='path'
-                      sx={{ stroke: 'none', fill: 'red', opacity: 0.8 }}
+                      sx={{
+                        stroke: 'none',
+                        fill: 'red',
+                        fillOpacity: i <= year ? 0.8 : 0,
+                        transition: 'fill-opacity 0.15s',
+                      }}
                       d={firePaths[i]}
                     />
                   )
