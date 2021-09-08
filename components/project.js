@@ -46,7 +46,7 @@ const Project = ({
         geoPath().projection(projection)(data.features[0].geometry)
       )
       if (showStates) setStatesPath(geoPath().projection(projection)(states))
-      const fireUrl = prefix + `${id}/fires_v4.json`
+      const fireUrl = prefix + `${id}/fires_v5.json`
       json(fireUrl).then((fireData) => {
         const firePathsTmp = {}
         Array(38)

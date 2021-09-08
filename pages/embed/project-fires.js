@@ -158,13 +158,13 @@ const Index = () => {
                   sx={{ color: 'red' }}
                   value={year}
                   step={1}
-                  min={0}
+                  min={1}
                   max={years.length - 1}
                   onChange={(e) => setYear(parseFloat(e.target.value))}
                 />
                 <Box sx={{ mt: [3] }}>
-                  {years.map((d, i) => {
-                    if (i % 5 == 0) {
+                  {years.slice(1, years.length).map((d, i) => {
+                    if (i % 4 == 0) {
                       return (
                         <Box
                           key={i}
@@ -176,13 +176,13 @@ const Index = () => {
                             fontSize: [1, 1, 1, 2],
                             position: 'absolute',
                             display: [
-                              i % 10 == 0 ? 'inline-block' : 'none',
+                              i % 6 == 0 ? 'inline-block' : 'none',
                               'inline-block',
                               'inline-block',
                               'inline-block',
                             ],
                             transform: 'translateX(-50%)',
-                            left: `${i * (97 / (years.length - 1)) + 1.5}%`,
+                            left: `${i * (97 / (years.length - 2)) + 1.5}%`,
                           }}
                         >
                           {d}
