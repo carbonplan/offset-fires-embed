@@ -52,6 +52,7 @@ const years = Array(38)
 const Index = () => {
   const [year, setYear] = useState(5)
   const [zoom, setZoom] = useState('near')
+  const [sliderChanging, setSliderChanging] = useState(false)
   const states = useStates()
 
   return (
@@ -156,17 +157,47 @@ const Index = () => {
                 Year
               </Box>
               <Box sx={{ position: 'relative', width: '100%' }}>
+                <Box
+                  as='span'
+                  sx={{
+                    mt: ['-24px'],
+                    fontSize: [1, 1, 1, 2],
+                    fontFamily: 'mono',
+                    color: 'red',
+                    position: 'absolute',
+                    transform: 'translateX(-50%)',
+                    letterSpacing: 'mono',
+                    left: [`${year * (97 / (years.length - 1)) + 1.5}%`],
+                    opacity: sliderChanging ? 1 : 0,
+                    transition: 'opacity 0.25s',
+                  }}
+                >
+                  {year + 1984}
+                </Box>
                 <Slider
                   sx={{ color: 'red' }}
                   value={year}
                   step={1}
-                  min={1}
+                  min={0}
                   max={years.length - 1}
                   onChange={(e) => setYear(parseFloat(e.target.value))}
+                  onTouchStart={() => {
+                    setSliderChanging(true)
+                  }}
+                  onMouseDown={() => {
+                    setSliderChanging(true)
+                  }}
+                  onMouseUp={() => {
+                    setSliderChanging(false)
+                  }}
+                  onKeyDown={() => {
+                    setSliderChanging(true)
+                  }}
+                  onKeyUp={() => setSliderChanging(false)}
                 />
                 <Box sx={{ mt: [3] }}>
-                  {years.slice(1, years.length).map((d, i) => {
-                    if (i % 4 == 0) {
+                  {years.slice(1, years.length - 1).map((d, i) => {
+                    if (i % 5 == 0) {
                       return (
                         <Box
                           key={i}
@@ -177,14 +208,17 @@ const Index = () => {
                             letterSpacing: 'mono',
                             fontSize: [1, 1, 1, 2],
                             position: 'absolute',
+                            top: '24px',
                             display: [
-                              i % 6 == 0 ? 'inline-block' : 'none',
+                              i % 10 == 0 ? 'inline-block' : 'none',
                               'inline-block',
                               'inline-block',
                               'inline-block',
                             ],
                             transform: 'translateX(-50%)',
-                            left: `${i * (97 / (years.length - 2)) + 1.5}%`,
+                            left: [
+                              `${(i + 1) * (97 / (years.length - 1)) + 1.5}%`,
+                            ],
                           }}
                         >
                           {d}
