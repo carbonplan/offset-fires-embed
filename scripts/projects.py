@@ -177,7 +177,10 @@ def get_project_fire_stats(fires, opr_id, start_dt, termination_dt):
 @click.option(
     "--upload-to", type=str, default=None, help="Where to put the workflow contents"
 )
-def main(upload_to):
+@click.option(
+    "--version", type=int, default=None, help="Where to put the workflow contents"
+)
+def main(upload_to, version):
 
     print("loading fire data")
     fires = load_fires()
@@ -212,12 +215,12 @@ def main(upload_to):
 
         if upload_to:
             print(f"-->writing shapes to {upload_to}/{project}")
-            with fsspec.open(f"{upload_to}/{project}/shape.json", "w") as f:
+            with fsspec.open(f"{upload_to}/{project}/shape_v{version}.json", "w") as f:
                 project_shape['start_date'] = project_shape['start_date'].astype(str)
                 project_shape['termination_date'] = project_shape['termination_date'].astype(str)
                 f.write(project_shape.to_crs("epsg:4326").to_json())
 
-            with fsspec.open(f"{upload_to}/{project}/fires_v4.json", "w") as f:
+            with fsspec.open(f"{upload_to}/{project}/fires_v{version}.json", "w") as f:
                 f.write(fire_shape.to_crs("epsg:4326").to_json())
 
 
