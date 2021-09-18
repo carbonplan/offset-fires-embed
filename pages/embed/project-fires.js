@@ -71,7 +71,7 @@ const Index = () => {
   return (
     <Layout embed='medium'>
       <Box sx={{ width: '100%', height: '100%', bg: 'background', p: [5] }}>
-        <Row columns={[2, 3, 3, 3]} sx={{ mb: [3] }}>
+        <Row columns={[2, 3, 3, 3]} sx={{ mb: [4] }}>
           <Column start={1} width={[2, 2, 2, 2]}>
             <Box
               sx={{

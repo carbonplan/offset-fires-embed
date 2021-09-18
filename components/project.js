@@ -92,6 +92,7 @@ const Project = ({
           mt: [2],
           mb: [4],
           position: 'relative',
+          borderRadius: '1px',
           border: ({ colors }) =>
             border ? `solid 1px ${colors.muted}` : 'none',
         }}
