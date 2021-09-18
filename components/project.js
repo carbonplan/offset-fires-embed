@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Box } from 'theme-ui'
+import { Badge } from '@carbonplan/components'
 import { json } from 'd3-fetch'
 import { useSpring, animated } from '@react-spring/web'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
@@ -7,12 +8,15 @@ import { feature } from 'topojson-client'
 
 const Project = ({
   data,
-  year,
+  yearStart,
+  yearEnd,
   zoom,
   states,
   showStates = true,
+  showStartDate = true,
   label = true,
   border = true,
+  setMetadata,
 }) => {
   const [projectPath, setProjectPath] = useState()
   const [firePaths, setFirePaths] = useState({})
@@ -33,9 +37,10 @@ const Project = ({
     if (showStates && !states) return
     const prefix =
       'https://storage.googleapis.com/carbonplan-research/offset-fires/grist/projects/'
-    const url = prefix + `${id}/shape_v8.json`
+    const url = prefix + `${id}/shape_v9.json`
 
     json(url).then((data) => {
+      if (setMetadata) setMetadata(data.features[0].properties)
       const projection = geoAlbersUsa().fitExtent(
         [
           [20, 20],
@@ -43,14 +48,12 @@ const Project = ({
         ],
         data.features[0].geometry
       )
-      setStartDate(
-        parseInt(data.features[0].properties.project_start_date.slice(0, 4))
-      )
+      setStartDate(parseInt(data.features[0].properties.start_date.slice(0, 4)))
       setProjectPath(
         geoPath().projection(projection)(data.features[0].geometry)
       )
       if (showStates) setStatesPath(geoPath().projection(projection)(states))
-      const fireUrl = prefix + `${id}/fires_v8.json`
+      const fireUrl = prefix + `${id}/fires_v9.json`
       json(fireUrl).then((fireData) => {
         const firePathsTmp = {}
         Array(38)
@@ -88,10 +91,36 @@ const Project = ({
         sx={{
           mt: [2],
           mb: [4],
+          position: 'relative',
           border: ({ colors }) =>
             border ? `solid 1px ${colors.muted}` : 'none',
         }}
       >
+        {showStartDate && (
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 2,
+              left: 2,
+              fontFamily: 'mono',
+              letterSpacing: 'mono',
+              fontSize: [0, 0, 0, 1],
+            }}
+          >
+            <Badge
+              sx={{
+                transition: 'opacity 0.15s',
+                opacity: startDate - 1984 > yearStart ? 0.6 : 0.9,
+                fontSize: [0, 0, 0, 1],
+                height: '20px',
+                mb: [0],
+                pb: [0],
+              }}
+            >
+              INITIALIZED: {startDate}
+            </Badge>
+          </Box>
+        )}
         <Box as='svg' viewBox='0 0 400 200' sx={{ mb: '-4px' }}>
           <animated.g transform={transform}>
             <g strokeLinejoin='round' strokeLinecap='round'>
@@ -99,7 +128,11 @@ const Project = ({
                 as='path'
                 sx={{
                   stroke: 'none',
-                  fill: year + 1 > startDate - 1984 ? 'primary' : 'secondary',
+                  fill: showStartDate
+                    ? startDate - 1984 > yearStart
+                      ? 'secondary'
+                      : 'primary'
+                    : 'primary',
                   transition: 'fill 0.15s',
                 }}
                 d={projectPath}
@@ -114,7 +147,7 @@ const Project = ({
                       sx={{
                         stroke: 'none',
                         fill: 'red',
-                        fillOpacity: i <= year ? 0.8 : 0,
+                        fillOpacity: i >= yearStart && i <= yearEnd ? 0.8 : 0,
                         transition: 'fill-opacity 0.15s',
                       }}
                       d={firePaths[i]}

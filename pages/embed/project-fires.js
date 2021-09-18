@@ -8,40 +8,40 @@ import useStates from '../../components/use-states'
 
 const projects = [
   {
-    id: 'ACR273',
-    name: 'Klamath East',
-    number: 1,
-    centroid: [-121.22172, 42.72968],
-  },
-  {
-    id: 'ACR274',
-    name: 'Klamath West',
-    number: 2,
-    centroid: [-122.11735, 42.16019],
-  },
-  {
     id: 'ACR255',
     name: 'Colville',
-    number: 3,
+    number: 1,
     centroid: [-118.63739, 48.25508],
   },
   {
     id: 'ACR260',
     name: 'Warm Springs',
-    number: 4,
+    number: 2,
     centroid: [-121.6897, 44.75978],
   },
   {
-    id: 'CAR1174',
-    name: 'Eddie Ranch',
-    number: 5,
-    centroid: [-123.09825, 39.37204],
+    id: 'ACR273',
+    name: 'Klamath East',
+    number: 3,
+    centroid: [-121.22172, 42.72968],
+  },
+  {
+    id: 'ACR274',
+    name: 'Klamath West',
+    number: 4,
+    centroid: [-122.11735, 42.16019],
   },
   {
     id: 'CAR1046',
     name: 'Trinity',
-    number: 6,
+    number: 5,
     centroid: [-123.49326, 40.55713],
+  },
+  {
+    id: 'CAR1174',
+    name: 'Eddie Ranch',
+    number: 6,
+    centroid: [-123.09825, 39.37204],
   },
 ]
 
@@ -50,10 +50,23 @@ const years = Array(38)
   .map((d, i) => i + 1984)
 
 const Index = () => {
-  const [year, setYear] = useState(5)
+  const [yearStart, setYearStart] = useState(29)
+  const [yearEnd, setYearEnd] = useState(36)
   const [zoom, setZoom] = useState('near')
   const [sliderChanging, setSliderChanging] = useState(false)
   const states = useStates()
+
+  useEffect(() => {
+    if (yearEnd < yearStart) {
+      setYearEnd(yearStart)
+    }
+  }, [yearEnd])
+
+  useEffect(() => {
+    if (yearStart > yearEnd) {
+      setYearStart(yearEnd)
+    }
+  }, [yearStart])
 
   return (
     <Layout embed='medium'>
@@ -97,7 +110,8 @@ const Index = () => {
             <Project
               data={projects[0]}
               states={states}
-              year={year}
+              yearStart={yearStart}
+              yearEnd={yearEnd}
               zoom={zoom}
             />
           </Column>
@@ -105,7 +119,8 @@ const Index = () => {
             <Project
               data={projects[1]}
               states={states}
-              year={year}
+              yearStart={yearStart}
+              yearEnd={yearEnd}
               zoom={zoom}
             />
           </Column>
@@ -113,7 +128,8 @@ const Index = () => {
             <Project
               data={projects[2]}
               states={states}
-              year={year}
+              yearStart={yearStart}
+              yearEnd={yearEnd}
               zoom={zoom}
             />
           </Column>
@@ -121,7 +137,8 @@ const Index = () => {
             <Project
               data={projects[3]}
               states={states}
-              year={year}
+              yearStart={yearStart}
+              yearEnd={yearEnd}
               zoom={zoom}
             />
           </Column>
@@ -129,7 +146,8 @@ const Index = () => {
             <Project
               data={projects[4]}
               states={states}
-              year={year}
+              yearStart={yearStart}
+              yearEnd={yearEnd}
               zoom={zoom}
             />
           </Column>
@@ -137,7 +155,8 @@ const Index = () => {
             <Project
               data={projects[5]}
               states={states}
-              year={year}
+              yearStart={yearStart}
+              yearEnd={yearEnd}
               zoom={zoom}
             />
           </Column>
@@ -167,37 +186,174 @@ const Index = () => {
                     position: 'absolute',
                     transform: 'translateX(-50%)',
                     letterSpacing: 'mono',
-                    left: [`${year * (97 / (years.length - 1)) + 1.5}%`],
+                    left: [`${yearStart * (97 / (years.length - 1)) + 1.5}%`],
                     opacity: sliderChanging ? 1 : 0,
                     transition: 'opacity 0.25s',
                   }}
                 >
-                  {year + 1984}
+                  {yearStart + 1984}
                 </Box>
-                <Slider
-                  sx={{ color: 'red' }}
-                  value={year}
-                  step={1}
-                  min={0}
-                  max={years.length - 1}
-                  onChange={(e) => setYear(parseFloat(e.target.value))}
-                  onTouchStart={() => {
-                    setSliderChanging(true)
+                <Box
+                  as='span'
+                  sx={{
+                    mt: ['-24px'],
+                    fontSize: [1, 1, 1, 2],
+                    fontFamily: 'mono',
+                    color: 'red',
+                    position: 'absolute',
+                    transform: 'translateX(-50%)',
+                    letterSpacing: 'mono',
+                    left: [`${yearEnd * (97 / (years.length - 1)) + 1.5}%`],
+                    opacity: sliderChanging ? 1 : 0,
+                    transition: 'opacity 0.25s',
                   }}
-                  onTouchEnd={() => {
-                    setSliderChanging(false)
+                >
+                  {yearEnd + 1984}
+                </Box>
+                <Box
+                  as='span'
+                  sx={{
+                    mt: ['8px'],
+                    bg: 'red',
+                    position: 'absolute',
+                    left: [`${yearStart * (97 / (years.length - 1)) + 1.5}%`],
+                    opacity: 1,
+                    width: `${
+                      yearEnd * (97 / (years.length - 1)) +
+                      1.5 -
+                      (yearStart * (97 / (years.length - 1)) + 1.5)
+                    }%`,
+                    height: '4px',
+                    zIndex: 1001,
+                    pointerEvents: 'none',
                   }}
-                  onMouseDown={() => {
-                    setSliderChanging(true)
-                  }}
-                  onMouseUp={() => {
-                    setSliderChanging(false)
-                  }}
-                  onKeyDown={() => {
-                    setSliderChanging(true)
-                  }}
-                  onKeyUp={() => setSliderChanging(false)}
                 />
+                <Box>
+                  <Slider
+                    sx={{
+                      color: 'red',
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      pointerEvents: 'none',
+                      ':focus': {
+                        color: 'red',
+                        '&::-webkit-slider-thumb': {
+                          boxShadow: ({ colors }) =>
+                            `0 0 0 4px ${colors.secondary}`,
+                        },
+                        '&::-moz-range-thumb': {
+                          boxShadow: ({ colors }) =>
+                            `0 0 0 4px ${colors.secondary}`,
+                        },
+                      },
+                      '&::-webkit-slider-thumb': {
+                        height: [22, 18, 16],
+                        width: [22, 18, 16],
+                        boxShadow: ({ colors }) =>
+                          `0 0 0 0px ${colors.secondary}`,
+                        transition: 'box-shadow .15s ease',
+                        pointerEvents: 'auto',
+                        zIndex: 1001,
+                      },
+                      '&::-moz-range-thumb': {
+                        height: [22, 18, 16],
+                        width: [22, 18, 16],
+                        boxShadow: ({ colors }) =>
+                          `0 0 0 0px ${colors.secondary}`,
+                        transition: 'box-shadow .15s ease',
+                        pointerEvents: 'auto',
+                        zIndex: 1001,
+                      },
+                    }}
+                    value={yearStart}
+                    step={1}
+                    min={0}
+                    max={years.length - 1}
+                    onChange={(e) => setYearStart(parseFloat(e.target.value))}
+                    onTouchStart={() => {
+                      setSliderChanging(true)
+                    }}
+                    onTouchEnd={() => {
+                      setSliderChanging(false)
+                    }}
+                    onMouseDown={() => {
+                      setSliderChanging(true)
+                    }}
+                    onMouseUp={() => {
+                      setSliderChanging(false)
+                    }}
+                    onKeyDown={() => {
+                      setSliderChanging(true)
+                    }}
+                    onKeyUp={() => setSliderChanging(false)}
+                  />
+                  <Slider
+                    sx={{
+                      color: 'red',
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      pointerEvents: 'none',
+                      bg: 'transparent',
+                      ':focus': {
+                        color: 'red',
+                        bg: 'transparent',
+                        '&::-webkit-slider-thumb': {
+                          boxShadow: ({ colors }) =>
+                            `0 0 0 4px ${colors.secondary}`,
+                        },
+                        '&::-moz-range-thumb': {
+                          boxShadow: ({ colors }) =>
+                            `0 0 0 4px ${colors.secondary}`,
+                        },
+                      },
+                      ':focus-visible': {
+                        outline: 'none !important',
+                        background: `transparent !important`,
+                      },
+                      '&::-webkit-slider-thumb': {
+                        height: [22, 18, 16],
+                        width: [22, 18, 16],
+                        boxShadow: ({ colors }) =>
+                          `0 0 0 0px ${colors.secondary}`,
+                        transition: 'box-shadow .15s ease',
+                        pointerEvents: 'auto',
+                        zIndex: 1001,
+                      },
+                      '&::-moz-range-thumb': {
+                        height: [22, 18, 16],
+                        width: [22, 18, 16],
+                        boxShadow: ({ colors }) =>
+                          `0 0 0 0px ${colors.secondary}`,
+                        transition: 'box-shadow .15s ease',
+                        pointerEvents: 'auto',
+                        zIndex: 1001,
+                      },
+                    }}
+                    value={yearEnd}
+                    step={1}
+                    min={0}
+                    max={years.length - 1}
+                    onChange={(e) => setYearEnd(parseFloat(e.target.value))}
+                    onTouchStart={() => {
+                      setSliderChanging(true)
+                    }}
+                    onTouchEnd={() => {
+                      setSliderChanging(false)
+                    }}
+                    onMouseDown={() => {
+                      setSliderChanging(true)
+                    }}
+                    onMouseUp={() => {
+                      setSliderChanging(false)
+                    }}
+                    onKeyDown={() => {
+                      setSliderChanging(true)
+                    }}
+                    onKeyUp={() => setSliderChanging(false)}
+                  />
+                </Box>
                 <Box sx={{ mt: [3] }}>
                   {years.slice(1, years.length - 1).map((d, i) => {
                     if (i % 5 == 0) {

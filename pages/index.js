@@ -22,6 +22,15 @@ const Index = () => {
     }
   })
 
+  const figure3 = useCallback((node) => {
+    if (node !== null) {
+      const resize = () => {
+        node.style.height = node.contentWindow.document.body.scrollHeight + 'px'
+      }
+      node.onload = resize
+    }
+  })
+
   useEffect(() => {
     window.onresize = () => {
       const figure1 = document.getElementById('figure-1')
@@ -30,6 +39,9 @@ const Index = () => {
       const figure2 = document.getElementById('figure-2')
       figure2.style.height =
         figure2.contentWindow.document.body.scrollHeight + 'px'
+      const figure3 = document.getElementById('figure-3')
+      figure3.style.height =
+        figure3.contentWindow.document.body.scrollHeight + 'px'
     }
   }, [])
 
@@ -126,7 +138,39 @@ const Index = () => {
                 <Box
                   sx={{
                     fontSize: ['20px'],
-                    my: [2, 3],
+                    my: [2, 3, 4, 5],
+                    maxWidth: '600px',
+                    mx: 'auto',
+                  }}
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </Box>
+                <Box
+                  as='iframe'
+                  id='figure-3'
+                  ref={figure3}
+                  src='/embed/future-risk'
+                  sx={{
+                    display: 'block',
+                    width: '100%',
+                    maxWidth: '600px',
+                    mx: 'auto',
+                    my: [7],
+                    border: 'none',
+                    height: ['480px', '520px', '520px', '520px'],
+                  }}
+                />
+                <Box
+                  sx={{
+                    fontSize: ['20px'],
+                    my: [2, 3, 4, 5],
                     maxWidth: '600px',
                     mx: 'auto',
                     pb: [7],

@@ -56,8 +56,7 @@ def load_project_db():
 def buffer_and_simplify(gdf, distance=None):
     gdf_out = gdf.copy(deep=True)
     gdf_out["geometry"] = [
-        g.buffer(100).buffer(-100).simplify(distance, preserve_topology=False)
-        for g in gdf.geometry
+        g.buffer(100).buffer(-100).simplify(distance, preserve_topology=False) for g in gdf.geometry
     ]
     return gdf_out
 
@@ -174,12 +173,8 @@ def get_project_fire_stats(fires, opr_id, start_dt, termination_dt):
 
 
 @click.command()
-@click.option(
-    "--upload-to", type=str, default=None, help="Where to put the workflow contents"
-)
-@click.option(
-    "--version", type=int, default=None, help="Where to put the workflow contents"
-)
+@click.option("--upload-to", type=str, default=None, help="Where to put the workflow contents")
+@click.option("--version", type=int, default=0, help="Version to append")
 def main(upload_to, version):
 
     print("loading fire data")

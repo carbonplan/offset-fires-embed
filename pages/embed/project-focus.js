@@ -1,10 +1,14 @@
+import { useState } from 'react'
 import { Box } from 'theme-ui'
-import { Row, Column } from '@carbonplan/components'
+import { Row, Column, formatDate } from '@carbonplan/components'
+import { format } from 'd3-format'
 import Project from '../../components/project'
 import Layout from '../../components/layout'
 
 const Index = () => {
-  const year = 38
+  const [metadata, setMetadata] = useState(null)
+  const yearStart = 0
+  const yearEnd = 38
   const zoom = 'near'
 
   return (
@@ -68,34 +72,62 @@ const Index = () => {
               number: 3,
               centroid: [-118.63739, 48.25508],
             }}
-            year={year}
+            yearStart={yearStart}
+            yearEnd={yearEnd}
             zoom={zoom}
             showStates={false}
+            showStartDate={false}
+            setMetadata={setMetadata}
           />
         </Box>
         <Row columns={[1, 2, 2, 2]} sx={{ mb: [0] }}>
           <Column start={1} width={1}>
             <Box
-              sx={{ fontFamily: 'mono', letterSpacing: 'mono', fontSize: [1] }}
+              sx={{
+                textTransform: 'uppercase',
+                fontFamily: 'mono',
+                letterSpacing: 'mono',
+                fontSize: [1],
+              }}
             >
-              PROJECT AREA: XX
+              <Box as='span' sx={{ color: 'secondary' }}>
+                START DATE:
+              </Box>{' '}
+              {metadata && formatDate(metadata?.start_date)}
             </Box>
             <Box
               sx={{ fontFamily: 'mono', letterSpacing: 'mono', fontSize: [1] }}
             >
-              TOTAL CREDITS: XX
+              <Box as='span' sx={{ color: 'secondary' }}>
+                PROJECT AREA:
+              </Box>{' '}
+              {format('.2~s')(metadata?.acreage)}
+            </Box>
+            <Box
+              sx={{ fontFamily: 'mono', letterSpacing: 'mono', fontSize: [1] }}
+            >
+              <Box as='span' sx={{ color: 'secondary' }}>
+                BUFFER CONTRIBUTION:
+              </Box>{' '}
+              {format('.0%')(metadata?.fire_buffer_contrib)}
             </Box>
           </Column>
           <Column start={[1, 2, 2, 2]} width={1}>
             <Box
               sx={{ fontFamily: 'mono', letterSpacing: 'mono', fontSize: [1] }}
             >
-              BURN AREA: XX
+              <Box as='span' sx={{ color: 'secondary' }}>
+                BURN AREA:
+              </Box>{' '}
+              {format('.2~s')(metadata?.burned_acreage)}
             </Box>
             <Box
               sx={{ fontFamily: 'mono', letterSpacing: 'mono', fontSize: [1] }}
             >
-              BURN OVERLAP: XX
+              <Box as='span' sx={{ color: 'secondary' }}>
+                BURN OVERLAP:
+              </Box>{' '}
+              {format('.0%')(metadata?.burned_acreage / metadata?.acreage)}
             </Box>
           </Column>
         </Row>
