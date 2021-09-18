@@ -51,7 +51,7 @@ const years = Array(38)
 
 const Index = () => {
   const [yearStart, setYearStart] = useState(29)
-  const [yearEnd, setYearEnd] = useState(36)
+  const [yearEnd, setYearEnd] = useState(37)
   const [zoom, setZoom] = useState('near')
   const [sliderChanging, setSliderChanging] = useState(false)
   const states = useStates()
