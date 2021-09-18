@@ -92,12 +92,12 @@ const Index = () => {
             >
               Several forest offset projects in California, Oregon, and
               Washington are in locations with a substantial record of
-              historical fire. Fires are shown for all years based on the range
-              selected using the slider at the bottom. Project boundaries turn
-              white when their start date is at or prior to the selected initial
-              year. You can use the plus and minus to zoom in and out and help
-              situate the project. Fire perimeters from the MTBS database (1984
-              through 2018) and from NIFC (2019 and 2020).
+              historical fire. Fires are shown for the range of years selected
+              range using the slider at the bottom. Project boundaries turn
+              white when their start date is at or prior to the initial selected
+              year. The plus and minus zooms in and out to help situate the
+              project. Fire perimeters from the MTBS database (1984 through
+              2018) and from NIFC (2019 and 2020).
             </Box>
           </Column>
           <Column start={[1, 3, 3, 3]} width={[2, 1, 1, 1]}>
