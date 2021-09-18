@@ -143,7 +143,7 @@ const Index = () => {
             fontSize: [4, 5, 5, 5],
           }}
         >
-          Future increases to fire risk
+          Future increases in fire risk
         </Box>
         <Box
           sx={{
