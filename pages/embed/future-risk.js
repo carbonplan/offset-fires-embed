@@ -94,7 +94,6 @@ const Index = () => {
   }, [])
 
   const values = useMemo(() => {
-    console.log('generating')
     if (!data) return null
     const out = {}
     let coords
@@ -220,18 +219,13 @@ const Index = () => {
               {values &&
                 values.coords.map((d, i) => {
                   return (
-                    <Box
-                      key={i}
-                      as='circle'
+                    <g key={i} transform={`translate(${values.coords[i][0]},${values.coords[i][1]})`}>
+                    <circle
                       r='4'
-                      sx={{
-                        strokeWidth: 0,
-                        fill: 'red',
-                        transition: 'fill-opacity 0.15s',
-                      }}
-                      transform={`translate(${values.coords[i][0]},${values.coords[i][1]})`}
+                      fill='#f07071'
                       fillOpacity={values[keyToScenario[scenario]][year][i] / 5}
                     />
+                    </g>
                   )
                 })}
               <Box
