@@ -67,11 +67,11 @@ const Legend = ({ value, label }) => {
 }
 
 const Index = () => {
-  const [year, setYear] = useState(0)
+  const [year, setYear] = useState(5)
   const [path, setPath] = useState()
   const [data, setData] = useState()
   const [sliderChanging, setSliderChanging] = useState(false)
-  const [scenario, setScenario] = useState('m')
+  const [scenario, setScenario] = useState('l')
 
   useEffect(() => {
     const uri =
@@ -153,14 +153,13 @@ const Index = () => {
             pb: [6],
           }}
         >
-          US forests vary in their historic levels of fire risk. Here we show
-          future fire risk relative to some of the country's historically
-          highest-risk forests. We define that baseline as the 97th percentile
-          of risk across US forests over 1990 to 2019, roughly equivalent the
-          risk in California over the same time period, which is known to be a
-          high-risk region. By the end of the 21st century, under a low
-          emissions scenario, risks to forests in much of the Western US will
-          increase by 5x compared to that high-risk baseline.
+          Here we show future fire risk relative to some of the country's
+          historically highest-risk forests. We define a baseline as the 97th
+          percentile of risk across US forests over 1990 to 2019, roughly
+          equivalent to the risk in California — a notably high-risk region. By
+          the end of the 21st century, even under a low emissions scenario,
+          risks to forests in much of the Western US are projected to increase
+          by 5x compared to that historical high-risk baseline.
         </Box>
         <Row columns={[6]}>
           <Column start={[1]} width={[3, 4, 4, 4]}>
