@@ -219,12 +219,17 @@ const Index = () => {
               {values &&
                 values.coords.map((d, i) => {
                   return (
-                    <g key={i} transform={`translate(${values.coords[i][0]},${values.coords[i][1]})`}>
-                    <circle
-                      r='4'
-                      fill='#f07071'
-                      fillOpacity={values[keyToScenario[scenario]][year][i] / 5}
-                    />
+                    <g
+                      key={i}
+                      transform={`translate(${values.coords[i][0]},${values.coords[i][1]})`}
+                    >
+                      <circle
+                        r='4'
+                        fill='#f07071'
+                        fillOpacity={
+                          values[keyToScenario[scenario]][year][i] / 5
+                        }
+                      />
                     </g>
                   )
                 })}
