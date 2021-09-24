@@ -7,7 +7,7 @@ const Index = () => {
   const figure1 = useCallback((node) => {
     if (node !== null) {
       const resize = () => {
-        node.style.height = node.contentWindow.document.body.scrollHeight + 'px'
+        node.style.height = node.contentWindow.document.body.scrollHeight + 1 + 'px'
       }
       node.onload = resize
     }
@@ -16,7 +16,7 @@ const Index = () => {
   const figure3 = useCallback((node) => {
     if (node !== null) {
       const resize = () => {
-        node.style.height = node.contentWindow.document.body.scrollHeight + 'px'
+        node.style.height = node.contentWindow.document.body.scrollHeight + 1 + 'px'
       }
       node.onload = resize
     }
@@ -26,10 +26,10 @@ const Index = () => {
     window.onresize = () => {
       const figure1 = document.getElementById('figure-1')
       figure1.style.height =
-        figure1.contentWindow.document.body.scrollHeight + 'px'
+        figure1.contentWindow.document.body.scrollHeight + 1 + 'px'
       const figure3 = document.getElementById('figure-3')
       figure3.style.height =
-        figure3.contentWindow.document.body.scrollHeight + 'px'
+        figure3.contentWindow.document.body.scrollHeight + 1 + 'px'
     }
   }, [])
 
