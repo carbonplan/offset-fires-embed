@@ -50,23 +50,10 @@ const years = Array(38)
   .map((d, i) => i + 1984)
 
 const Index = () => {
-  const [yearStart, setYearStart] = useState(29)
-  const [yearEnd, setYearEnd] = useState(37)
+  const [year, setYear] = useState(36)
   const [zoom, setZoom] = useState('near')
   const [sliderChanging, setSliderChanging] = useState(false)
   const states = useStates()
-
-  useEffect(() => {
-    if (yearEnd < yearStart) {
-      setYearEnd(yearStart)
-    }
-  }, [yearEnd])
-
-  useEffect(() => {
-    if (yearStart > yearEnd) {
-      setYearStart(yearEnd)
-    }
-  }, [yearStart])
 
   return (
     <Layout embed='medium'>
@@ -91,13 +78,14 @@ const Index = () => {
               }}
             >
               Several forest offset projects in California, Oregon, and
-              Washington are in locations with a substantial record of
-              historical fire. Fires are shown for the range of years selected
-              range using the slider at the bottom. Project boundaries turn
-              white when their start date is at or prior to the initial selected
-              year. The plus and minus zooms in and out to help situate the
-              project. Fire perimeters from the MTBS database (1984 through
-              2018) and from NIFC (2019 and 2020).
+              Washington are in locations with a record of historical fire, and
+              many have experienced fires. Red regions show fires during the
+              year selected using the slider at the bottom. White regions show
+              projects and turn gray if the start date is before the selected
+              year. Burn area is the fraction of the project burned during its
+              lifetime. The plus and minus zooms in and out for spatial context.
+              Fire perimeters from the MTBS database (1984 through 2018) and
+              from NIFC (2019 and 2020).
             </Box>
           </Column>
           <Column start={[1, 3, 3, 3]} width={[2, 1, 1, 1]}>
@@ -105,39 +93,35 @@ const Index = () => {
           </Column>
         </Row>
         <Row columns={[1, 3, 3, 3]}>
-          <Column start={1} width={1}>
+          <Column start={1} width={[1, 2, 2, 2]}>
             <Project
               data={projects[0]}
               states={states}
-              yearStart={yearStart}
-              yearEnd={yearEnd}
+              year={year}
               zoom={zoom}
-            />
-          </Column>
-          <Column start={[1, 2, 2, 2]} width={1}>
-            <Project
-              data={projects[1]}
-              states={states}
-              yearStart={yearStart}
-              yearEnd={yearEnd}
-              zoom={zoom}
+              height={210.5}
             />
           </Column>
           <Column start={[1, 3, 3, 3]} width={1}>
             <Project
+              data={projects[1]}
+              states={states}
+              year={year}
+              zoom={zoom}
+            />
+            <Project
               data={projects[2]}
               states={states}
-              yearStart={yearStart}
-              yearEnd={yearEnd}
+              year={year}
               zoom={zoom}
             />
           </Column>
+          <Column start={[1, 3, 3, 3]} width={1}></Column>
           <Column start={1} width={1}>
             <Project
               data={projects[3]}
               states={states}
-              yearStart={yearStart}
-              yearEnd={yearEnd}
+              year={year}
               zoom={zoom}
             />
           </Column>
@@ -145,8 +129,7 @@ const Index = () => {
             <Project
               data={projects[4]}
               states={states}
-              yearStart={yearStart}
-              yearEnd={yearEnd}
+              year={year}
               zoom={zoom}
             />
           </Column>
@@ -154,8 +137,7 @@ const Index = () => {
             <Project
               data={projects[5]}
               states={states}
-              yearStart={yearStart}
-              yearEnd={yearEnd}
+              year={year}
               zoom={zoom}
             />
           </Column>
@@ -185,48 +167,14 @@ const Index = () => {
                     position: 'absolute',
                     transform: 'translateX(-50%)',
                     letterSpacing: 'mono',
-                    left: [`${yearStart * (97 / (years.length - 1)) + 1.5}%`],
+                    left: [`${year * (97 / (years.length - 1)) + 1.5}%`],
                     opacity: sliderChanging ? 1 : 0,
                     transition: 'opacity 0.25s',
                   }}
                 >
-                  {yearStart + 1984}
+                  {year + 1984}
                 </Box>
-                <Box
-                  as='span'
-                  sx={{
-                    mt: ['-24px'],
-                    fontSize: [1, 1, 1, 2],
-                    fontFamily: 'mono',
-                    color: 'red',
-                    position: 'absolute',
-                    transform: 'translateX(-50%)',
-                    letterSpacing: 'mono',
-                    left: [`${yearEnd * (97 / (years.length - 1)) + 1.5}%`],
-                    opacity: sliderChanging ? 1 : 0,
-                    transition: 'opacity 0.25s',
-                  }}
-                >
-                  {yearEnd + 1984}
-                </Box>
-                <Box
-                  as='span'
-                  sx={{
-                    mt: ['8px'],
-                    bg: 'red',
-                    position: 'absolute',
-                    left: [`${yearStart * (97 / (years.length - 1)) + 1.5}%`],
-                    opacity: 1,
-                    width: `${
-                      yearEnd * (97 / (years.length - 1)) +
-                      1.5 -
-                      (yearStart * (97 / (years.length - 1)) + 1.5)
-                    }%`,
-                    height: '4px',
-                    zIndex: 1001,
-                    pointerEvents: 'none',
-                  }}
-                />
+
                 <Box>
                   <Slider
                     sx={{
@@ -265,76 +213,11 @@ const Index = () => {
                         zIndex: 1001,
                       },
                     }}
-                    value={yearStart}
+                    value={year}
                     step={1}
                     min={0}
                     max={years.length - 1}
-                    onChange={(e) => setYearStart(parseFloat(e.target.value))}
-                    onTouchStart={() => {
-                      setSliderChanging(true)
-                    }}
-                    onTouchEnd={() => {
-                      setSliderChanging(false)
-                    }}
-                    onMouseDown={() => {
-                      setSliderChanging(true)
-                    }}
-                    onMouseUp={() => {
-                      setSliderChanging(false)
-                    }}
-                    onKeyDown={() => {
-                      setSliderChanging(true)
-                    }}
-                    onKeyUp={() => setSliderChanging(false)}
-                  />
-                  <Slider
-                    sx={{
-                      color: 'red',
-                      position: 'absolute',
-                      left: 0,
-                      top: 0,
-                      pointerEvents: 'none',
-                      bg: 'transparent',
-                      ':focus': {
-                        color: 'red',
-                        bg: 'transparent',
-                        '&::-webkit-slider-thumb': {
-                          boxShadow: ({ colors }) =>
-                            `0 0 0 4px ${colors.secondary}`,
-                        },
-                        '&::-moz-range-thumb': {
-                          boxShadow: ({ colors }) =>
-                            `0 0 0 4px ${colors.secondary}`,
-                        },
-                      },
-                      ':focus-visible': {
-                        outline: 'none !important',
-                        background: `transparent !important`,
-                      },
-                      '&::-webkit-slider-thumb': {
-                        height: [22, 18, 16],
-                        width: [22, 18, 16],
-                        boxShadow: ({ colors }) =>
-                          `0 0 0 0px ${colors.secondary}`,
-                        transition: 'box-shadow .15s ease',
-                        pointerEvents: 'auto',
-                        zIndex: 1001,
-                      },
-                      '&::-moz-range-thumb': {
-                        height: [22, 18, 16],
-                        width: [22, 18, 16],
-                        boxShadow: ({ colors }) =>
-                          `0 0 0 0px ${colors.secondary}`,
-                        transition: 'box-shadow .15s ease',
-                        pointerEvents: 'auto',
-                        zIndex: 1001,
-                      },
-                    }}
-                    value={yearEnd}
-                    step={1}
-                    min={0}
-                    max={years.length - 1}
-                    onChange={(e) => setYearEnd(parseFloat(e.target.value))}
+                    onChange={(e) => setYear(parseFloat(e.target.value))}
                     onTouchStart={() => {
                       setSliderChanging(true)
                     }}

@@ -13,15 +13,6 @@ const Index = () => {
     }
   })
 
-  const figure2 = useCallback((node) => {
-    if (node !== null) {
-      const resize = () => {
-        node.style.height = node.contentWindow.document.body.scrollHeight + 'px'
-      }
-      node.onload = resize
-    }
-  })
-
   const figure3 = useCallback((node) => {
     if (node !== null) {
       const resize = () => {
@@ -36,9 +27,6 @@ const Index = () => {
       const figure1 = document.getElementById('figure-1')
       figure1.style.height =
         figure1.contentWindow.document.body.scrollHeight + 'px'
-      const figure2 = document.getElementById('figure-2')
-      figure2.style.height =
-        figure2.contentWindow.document.body.scrollHeight + 'px'
       const figure3 = document.getElementById('figure-3')
       figure3.style.height =
         figure3.contentWindow.document.body.scrollHeight + 'px'
@@ -120,21 +108,6 @@ const Index = () => {
                   cupidatat non proident, sunt in culpa qui officia deserunt
                   mollit anim id est laborum.
                 </Box>
-                <Box
-                  as='iframe'
-                  id='figure-2'
-                  ref={figure2}
-                  src='/embed/project-focus'
-                  sx={{
-                    display: 'block',
-                    width: '100%',
-                    maxWidth: '600px',
-                    mx: 'auto',
-                    my: [7],
-                    border: 'none',
-                    height: ['480px', '520px', '520px', '520px'],
-                  }}
-                />
                 <Box
                   sx={{
                     fontSize: ['20px'],

@@ -11,12 +11,11 @@ import Layout from '../../components/layout'
 
 const projection = geoAlbersUsa().scale(1300).translate([487.5, 305])
 const years = [2020, 2030, 2040, 2050, 2060, 2070, 2080, 2090]
-const scenarios = ['ssp245', 'ssp370', 'ssp585']
+const scenarios = ['ssp245', 'ssp370']
 
 const keyToScenario = {
   l: 'ssp245',
   m: 'ssp370',
-  h: 'ssp585',
 }
 
 const Legend = ({ value, label }) => {
@@ -150,17 +149,16 @@ const Index = () => {
             fontSize: [1, 1, 1, 2],
             lineHeight: 'body',
             pt: [3],
-            pb: [6],
+            pb: [5],
           }}
         >
           Here we show future fire risk relative to some of the country's
-          historically highest-risk forests. We define a baseline as the 97th
-          percentile of risk across US forests over 1990 to 2019, roughly
-          equivalent to the risk in California — a notably high-risk region. By
-          the end of the 21st century, even under a low emissions scenario,
-          risks to forests in much of the Western US are projected to increase
-          by 5x compared to that historical high-risk baseline.
+          historically highest-risk forests. By the end of the 21st century,
+          even under a low emissions scenario, risks to forests in much of the
+          Western US are projected to increase by 5x compared to current risk in
+          California.*
         </Box>
+
         <Row columns={[6]}>
           <Column start={[1]} width={[3, 4, 4, 4]}>
             <Box
@@ -187,13 +185,6 @@ const Index = () => {
               onClick={() => setScenario('m')}
             >
               SSP3-7.0
-            </Tag>
-            <Tag
-              sx={{ fontSize: [0, 1, 1, 2], mr: [2, 3, 3, 3] }}
-              value={scenario === 'h'}
-              onClick={() => setScenario('h')}
-            >
-              SSP5-8.5
             </Tag>
           </Column>
           <Column
@@ -330,6 +321,11 @@ const Index = () => {
             </Box>
           </Box>
         </Flex>
+        <Box sx={{ mt: [6], fontSize: [0, 0, 0, 1] }}>
+          * We define a baseline as the 97th percentile of risk across US
+          forests over 1990-2019, which is roughly equivalent to the risk in
+          California — a notably high-risk region — over that period.
+        </Box>
       </Box>
     </Layout>
   )

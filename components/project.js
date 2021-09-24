@@ -1,34 +1,40 @@
 import { useEffect, useState } from 'react'
-import { Box } from 'theme-ui'
-import { Badge } from '@carbonplan/components'
+import { useThemeUI, Box } from 'theme-ui'
 import { json } from 'd3-fetch'
+import { format } from 'd3-format'
 import { useSpring, animated } from '@react-spring/web'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
 import { feature } from 'topojson-client'
 
 const Project = ({
   data,
-  yearStart,
-  yearEnd,
+  year,
   zoom,
   states,
+  height = 140,
   showStates = true,
   showStartDate = true,
+  showStats = true,
   label = true,
   border = true,
-  setMetadata,
 }) => {
   const [projectPath, setProjectPath] = useState()
   const [firePaths, setFirePaths] = useState({})
   const [statesPath, setStatesPath] = useState()
   const [startDate, setStartDate] = useState()
+  const [startYear, setStartYear] = useState()
+  const [metadata, setMetadata] = useState()
+  const { theme } = useThemeUI()
+  const { colors } = theme
+  const { primary, secondary, red } = colors
 
-  const { transform } = useSpring({
+  const { transform, opacity } = useSpring({
     config: { duration: 500, mass: 1, tension: 280, friction: 120 },
     transform:
       zoom === 'near'
         ? 'scale(1) translate(0,0)'
-        : 'scale(0.3) translate(500,250)',
+        : `scale(0.3) translate(500,${height * 1.3})`,
+    opacity: zoom === 'far' ? 1 : 0,
   })
 
   const { number, id, name } = data
@@ -44,11 +50,12 @@ const Project = ({
       const projection = geoAlbersUsa().fitExtent(
         [
           [20, 20],
-          [380, 180],
+          [380, height - 20],
         ],
         data.features[0].geometry
       )
-      setStartDate(parseInt(data.features[0].properties.start_date.slice(0, 4)))
+      setStartDate(data.features[0].properties.start_date)
+      setStartYear(parseInt(data.features[0].properties.start_date.slice(0, 4)))
       setProjectPath(
         geoPath().projection(projection)(data.features[0].geometry)
       )
@@ -97,43 +104,19 @@ const Project = ({
             border ? `solid 1px ${colors.muted}` : 'none',
         }}
       >
-        {showStartDate && (
-          <Box
-            sx={{
-              position: 'absolute',
-              bottom: 2,
-              left: 2,
-              fontFamily: 'mono',
-              letterSpacing: 'mono',
-              fontSize: [0, 0, 0, 1],
-            }}
-          >
-            <Badge
-              sx={{
-                transition: 'opacity 0.15s',
-                opacity: startDate - 1984 > yearStart ? 0.6 : 0.9,
-                fontSize: [0, 0, 0, 1],
-                height: '20px',
-                mb: [0],
-                pb: [0],
-              }}
-            >
-              INITIALIZED: {startDate}
-            </Badge>
-          </Box>
-        )}
-        <Box as='svg' viewBox='0 0 400 200' sx={{ mb: '-4px' }}>
+        <Box as='svg' viewBox={`0 0 400 ${height}`} sx={{ mb: '-4px' }}>
           <animated.g transform={transform}>
             <g strokeLinejoin='round' strokeLinecap='round'>
-              <Box
-                as='path'
-                sx={{
-                  stroke: 'none',
-                  fill: showStartDate
-                    ? startDate - 1984 > yearStart
-                      ? 'secondary'
-                      : 'primary'
-                    : 'primary',
+              <path
+                stroke='none'
+                fill={
+                  showStartDate
+                    ? startYear - 1984 > year
+                      ? secondary
+                      : primary
+                    : primary
+                }
+                style={{
                   transition: 'fill 0.15s',
                 }}
                 d={projectPath}
@@ -142,35 +125,78 @@ const Project = ({
                 .fill(0)
                 .map((d, i) => {
                   return (
-                    <Box
+                    <path
                       key={i}
                       as='path'
-                      sx={{
-                        stroke: 'none',
-                        fill: 'red',
-                        fillOpacity: i >= yearStart && i <= yearEnd ? 0.8 : 0,
+                      stroke='none'
+                      fill={red}
+                      style={{
+                        fillOpacity: i === year ? 0.8 : 0,
                         transition: 'fill-opacity 0.15s',
                       }}
                       d={firePaths[i]}
                     />
                   )
                 })}
-              {showStates && (
-                <Box
-                  as='path'
-                  sx={{
-                    opacity: 1,
-                    strokeWidth: 0.5,
-                    stroke: 'primary',
-                    fill: 'none',
-                    vectorEffect: 'non-scaling-stroke',
-                  }}
-                  d={statesPath}
-                />
-              )}
             </g>
+            <animated.path
+              opacity={opacity}
+              style={{
+                strokeWidth: 0.5,
+                stroke: primary,
+                fill: 'none',
+                vectorEffect: 'non-scaling-stroke',
+              }}
+              d={statesPath}
+            />
           </animated.g>
         </Box>
+        {showStartDate && (
+          <Box
+            sx={{
+              position: 'relative',
+              ml: 2,
+              pt: 2,
+              fontFamily: 'mono',
+              letterSpacing: 'mono',
+              fontSize: [0, 0, 0, 1],
+              textTransform: 'uppercase',
+            }}
+          >
+            <Box as='span' sx={{ color: 'secondary' }}>
+              PROJECT START:{' '}
+            </Box>
+            <Box
+              as='span'
+              sx={{ color: startYear - 1984 > year ? 'secondary' : 'primary' }}
+            >
+              {startYear}
+            </Box>
+          </Box>
+        )}
+        {showStats && (
+          <Box
+            sx={{
+              position: 'relative',
+              ml: 2,
+              pb: 2,
+              fontFamily: 'mono',
+              letterSpacing: 'mono',
+              fontSize: [0, 0, 0, 1],
+            }}
+          >
+            <Box as='span' sx={{ color: 'secondary' }}>
+              BURN AREA:{' '}
+            </Box>
+            <Box
+              as='span'
+              sx={{ color: startYear - 1984 > year ? 'secondary' : 'primary' }}
+            >
+              {metadata &&
+                format('.0%')(metadata?.burned_acreage / metadata?.acreage)}
+            </Box>
+          </Box>
+        )}
       </Box>
     </>
   )
