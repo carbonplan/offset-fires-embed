@@ -88,7 +88,7 @@ const Index = () => {
                     ml: [0, 'auto', 0, 'calc(-300px - 3vw)'],
                     my: [7],
                     border: 'none',
-                    height: ['1850px', '800px', '800px', '800px'],
+                    height: ['1850px', '1001px', '1001px', '1001px'],
                   }}
                 />
                 <Box
@@ -137,7 +137,7 @@ const Index = () => {
                     mx: 'auto',
                     my: [7],
                     border: 'none',
-                    height: ['480px', '520px', '520px', '520px'],
+                    height: ['480px', '750px', '750px', '750px'],
                   }}
                 />
                 <Box
