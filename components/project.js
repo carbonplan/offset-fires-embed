@@ -17,6 +17,7 @@ const Project = ({
   showStats = true,
   label = true,
   border = true,
+  stretch = false,
 }) => {
   const [projectPath, setProjectPath] = useState()
   const [firePaths, setFirePaths] = useState({})
@@ -100,6 +101,12 @@ const Project = ({
           mb: [4],
           position: 'relative',
           borderRadius: '1px',
+          height: [
+            'auto',
+            stretch ? 'calc(100% - 72px)' : 'auto',
+            stretch ? 'calc(100% - 72px)' : 'auto',
+            stretch ? 'calc(100% - 72px)' : 'auto',
+          ],
           border: ({ colors }) =>
             border ? `solid 1px ${colors.muted}` : 'none',
         }}
@@ -151,52 +158,59 @@ const Project = ({
             />
           </animated.g>
         </Box>
-        {showStartDate && (
-          <Box
-            sx={{
-              position: 'relative',
-              ml: 2,
-              pt: 2,
-              fontFamily: 'mono',
-              letterSpacing: 'mono',
-              fontSize: [0, 0, 0, 1],
-              textTransform: 'uppercase',
-            }}
-          >
-            <Box as='span' sx={{ color: 'secondary' }}>
-              PROJECT START:{' '}
-            </Box>
+        <Box sx={{ position: 'relative', mt: [6] }} />
+        <Box sx={{ position: 'absolute', bottom: 0 }}>
+          {showStartDate && (
             <Box
-              as='span'
-              sx={{ color: startYear - 1984 > year ? 'secondary' : 'primary' }}
+              sx={{
+                position: 'relative',
+                ml: 2,
+                pt: 2,
+                fontFamily: 'mono',
+                letterSpacing: 'mono',
+                fontSize: [0, 0, 0, 1],
+                textTransform: 'uppercase',
+              }}
             >
-              {startYear}
+              <Box as='span' sx={{ color: 'secondary' }}>
+                PROJECT START:{' '}
+              </Box>
+              <Box
+                as='span'
+                sx={{
+                  color: startYear - 1984 > year ? 'secondary' : 'primary',
+                }}
+              >
+                {startYear}
+              </Box>
             </Box>
-          </Box>
-        )}
-        {showStats && (
-          <Box
-            sx={{
-              position: 'relative',
-              ml: 2,
-              pb: 2,
-              fontFamily: 'mono',
-              letterSpacing: 'mono',
-              fontSize: [0, 0, 0, 1],
-            }}
-          >
-            <Box as='span' sx={{ color: 'secondary' }}>
-              BURN AREA:{' '}
-            </Box>
+          )}
+          {showStats && (
             <Box
-              as='span'
-              sx={{ color: startYear - 1984 > year ? 'secondary' : 'primary' }}
+              sx={{
+                position: 'relative',
+                ml: 2,
+                pb: 2,
+                fontFamily: 'mono',
+                letterSpacing: 'mono',
+                fontSize: [0, 0, 0, 1],
+              }}
             >
-              {metadata &&
-                format('.0%')(metadata?.burned_acreage / metadata?.acreage)}
+              <Box as='span' sx={{ color: 'secondary' }}>
+                BURN AREA:{' '}
+              </Box>
+              <Box
+                as='span'
+                sx={{
+                  color: startYear - 1984 > year ? 'secondary' : 'primary',
+                }}
+              >
+                {metadata &&
+                  format('.0%')(metadata?.burned_acreage / metadata?.acreage)}
+              </Box>
             </Box>
-          </Box>
-        )}
+          )}
+        </Box>
       </Box>
     </>
   )

@@ -100,6 +100,7 @@ const Index = () => {
               year={year}
               zoom={zoom}
               height={210.5}
+              stretch
             />
           </Column>
           <Column start={[1, 3, 3, 3]} width={1}>
