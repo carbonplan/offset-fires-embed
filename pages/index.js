@@ -89,6 +89,7 @@ const Index = () => {
                     my: [7],
                     border: 'none',
                     height: ['1850px', '1001px', '1001px', '1001px'],
+                    overflow: 'hidden'
                   }}
                 />
                 <Box
@@ -138,6 +139,7 @@ const Index = () => {
                     my: [7],
                     border: 'none',
                     height: ['480px', '750px', '750px', '750px'],
+                    overflow: 'hidden'
                   }}
                 />
                 <Box
