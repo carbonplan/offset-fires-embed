@@ -4,32 +4,14 @@ import { Row, Column } from '@carbonplan/components'
 import Layout from '../components/layout'
 
 const Index = () => {
-  const figure1 = useCallback((node) => {
-    if (node !== null) {
-      const resize = () => {
-        node.style.height = node.contentWindow.document.body.scrollHeight + 1 + 'px'
-      }
-      node.onload = resize
-    }
-  })
-
-  const figure3 = useCallback((node) => {
-    if (node !== null) {
-      const resize = () => {
-        node.style.height = node.contentWindow.document.body.scrollHeight + 1 + 'px'
-      }
-      node.onload = resize
-    }
-  })
-
   useEffect(() => {
     window.onresize = () => {
       const figure1 = document.getElementById('figure-1')
-      figure1.style.height =
-        figure1.contentWindow.document.body.scrollHeight + 1 + 'px'
+      figure1.height =
+        figure1.contentWindow.document.body.offsetHeight + 1 + 'px'
       const figure3 = document.getElementById('figure-3')
-      figure3.style.height =
-        figure3.contentWindow.document.body.scrollHeight + 1 + 'px'
+      figure3.height =
+        figure3.contentWindow.document.body.offsetHeight + 1 + 'px'
     }
   }, [])
 
@@ -78,7 +60,13 @@ const Index = () => {
                 <Box
                   as='iframe'
                   id='figure-1'
-                  ref={figure1}
+                  height='1001px'
+                  scrolling='no'
+                  onLoad={(event) => {
+                    const iframe = event.target
+                    iframe.height =
+                      iframe.contentWindow.document.body.offsetHeight + 1 + 'px'
+                  }}
                   src='/embed/project-fires'
                   sx={{
                     display: 'block',
@@ -88,8 +76,6 @@ const Index = () => {
                     ml: [0, 'auto', 0, 'calc(-300px - 3vw)'],
                     my: [7],
                     border: 'none',
-                    height: ['1850px', '1001px', '1001px', '1001px'],
-                    overflow: 'hidden'
                   }}
                 />
                 <Box
@@ -129,8 +115,14 @@ const Index = () => {
                 <Box
                   as='iframe'
                   id='figure-3'
-                  ref={figure3}
                   src='/embed/future-risk'
+                  scrolling='no'
+                  height='750px'
+                  onLoad={(event) => {
+                    const iframe = event.target
+                    iframe.height =
+                      iframe.contentWindow.document.body.offsetHeight + 1 + 'px'
+                  }}
                   sx={{
                     display: 'block',
                     width: '100%',
@@ -138,8 +130,6 @@ const Index = () => {
                     mx: 'auto',
                     my: [7],
                     border: 'none',
-                    height: ['480px', '750px', '750px', '750px'],
-                    overflow: 'hidden'
                   }}
                 />
                 <Box
