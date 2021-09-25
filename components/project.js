@@ -79,7 +79,7 @@ const Project = ({
   return (
     <>
       {label && (
-        <Box sx={{ pb: [2] }}>
+        <Box sx={{ pb: [1] }}>
           <Box
             as='span'
             sx={{
