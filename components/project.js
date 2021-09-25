@@ -206,7 +206,9 @@ const Project = ({
                 }}
               >
                 {metadata &&
-                  format('.0%')(metadata?.burned_acreage / metadata?.acreage)}
+                (100 * metadata?.burned_acreage) / metadata?.acreage < 1
+                  ? '<1%'
+                  : format('.0%')(metadata?.burned_acreage / metadata?.acreage)}
               </Box>
             </Box>
           )}
