@@ -18,14 +18,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run build --if-present
-      - name: Dump GitHub context
-        if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
       - name: Run snapshot tests
         if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
         run: npm run test:ci
         env:
           TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
+      - name: Upload snapshot diff output artifacts
+        if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+        uses: actions/upload-artifact@v2
+        with:
+          name: diff-output
+          path: tests/__image_snapshots__/__diff_output__/
