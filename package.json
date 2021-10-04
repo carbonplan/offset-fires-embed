@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "author": "freeman-lab",
   "license": "MIT",
@@ -28,5 +29,10 @@
     "theme-ui": "^0.10.0",
     "topojson-client": "^3.1.0",
     "zarr-js": "^2.0.1"
+  },
+  "devDependencies": {
+    "jest": "^27.2.4",
+    "jest-image-snapshot": "^4.5.1",
+    "puppeteer": "^10.4.0"
   }
 }
