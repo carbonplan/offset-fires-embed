@@ -25,6 +25,7 @@ jobs:
         run: |
           echo "$GITHUB_CONTEXT"
       - name: Run snapshot tests
+        if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
         run: npm run test:ci
         env:
           TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
