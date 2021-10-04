@@ -8,13 +8,15 @@ const viewports = [
   { description: 'mobile', width: 425, height: 1 },
 ]
 
+const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000'
+
 viewports.forEach(({ description, height, width }) => {
   describe(description, () => {
     it('/', async () => {
       const browser = await puppeteer.launch()
       const page = await browser.newPage()
       await page.setViewport({ height, width })
-      await page.goto('http://localhost:3000')
+      await page.goto(baseUrl + '/')
       await page.waitForNetworkIdle()
       const image = await page.screenshot({ fullPage: true })
 
@@ -25,7 +27,7 @@ viewports.forEach(({ description, height, width }) => {
       const browser = await puppeteer.launch()
       const page = await browser.newPage()
       await page.setViewport({ height, width })
-      await page.goto('http://localhost:3000/embed/future-risk')
+      await page.goto(baseUrl + '/embed/future-risk')
       await page.waitForNetworkIdle()
       const image = await page.screenshot({ fullPage: true })
 
@@ -36,7 +38,7 @@ viewports.forEach(({ description, height, width }) => {
       const browser = await puppeteer.launch()
       const page = await browser.newPage()
       await page.setViewport({ height, width })
-      await page.goto('http://localhost:3000/embed/project-fires')
+      await page.goto(baseUrl + '/embed/project-fires')
       await page.waitForNetworkIdle()
       const image = await page.screenshot({ fullPage: true })
 
