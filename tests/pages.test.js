@@ -2,6 +2,9 @@ import { toMatchImageSnapshot } from 'jest-image-snapshot'
 const puppeteer = require('puppeteer')
 expect.extend({ toMatchImageSnapshot })
 
+const options = {
+  allowSizeMismatch: true,
+}
 const viewports = [
   { description: 'laptop', width: 1440, height: 1 },
   { description: 'tablet', width: 768, height: 1 },
@@ -20,7 +23,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.waitForNetworkIdle()
       const image = await page.screenshot({ fullPage: true })
 
-      expect(image).toMatchImageSnapshot()
+      expect(image).toMatchImageSnapshot(options)
     })
 
     it('/embed/future-risk', async () => {
@@ -31,7 +34,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.waitForNetworkIdle()
       const image = await page.screenshot({ fullPage: true })
 
-      expect(image).toMatchImageSnapshot()
+      expect(image).toMatchImageSnapshot(options)
     })
 
     it('/embed/project-fires', async () => {
@@ -42,7 +45,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.waitForNetworkIdle()
       const image = await page.screenshot({ fullPage: true })
 
-      expect(image).toMatchImageSnapshot()
+      expect(image).toMatchImageSnapshot(options)
     })
   })
 })

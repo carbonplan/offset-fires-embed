@@ -7,8 +7,8 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "test": "jest --detectOpenHandles",
-    "test:ci": "jest --ci --detectOpenHandles --reporters='default'"
+    "test": "jest --forceExit",
+    "test:ci": "jest --ci --forceExit --reporters='default'"
   },
   "author": "freeman-lab",
   "license": "MIT",
