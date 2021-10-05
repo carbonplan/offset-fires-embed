@@ -64,7 +64,7 @@ const Index = () => {
         const ref2 = document.getElementById('project-2')
         const offset = 68
         const newHeight = offset + ref1.offsetHeight + ref2.offsetHeight
-        const newSvgHeight = (0.5 * ((newHeight - 48) - targetSvg.clientHeight))
+        const newSvgHeight = 0.5 * (newHeight - 48 - targetSvg.clientHeight)
         target.style.height = newHeight + 'px'
         targetSvg.style.marginTop = newSvgHeight + 'px'
       } else {
@@ -132,7 +132,6 @@ const Index = () => {
               states={states}
               year={year}
               zoom={zoom}
-
             />
             <Project
               id={'project-2'}
