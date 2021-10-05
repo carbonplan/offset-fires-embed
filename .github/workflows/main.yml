@@ -1,0 +1,31 @@
+name: CI
+
+on: [push, pull_request, deployment_status]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm run build --if-present
+      - name: Run snapshot tests
+        if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+        run: npm run test:ci
+        env:
+          TEST_BASE_URL: ${{ github.event.deployment_status.target_url }}
+      - name: Upload snapshot diff output artifacts
+        if: failure() && (github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success')
+        uses: actions/upload-artifact@v2
+        with:
+          name: visual-regression-report
+          path: tests/__image_snapshots__/__diff_output__/
