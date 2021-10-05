@@ -3,5 +3,5 @@ const isDev =
 
 module.exports = {
   pageExtensions: ['jsx', 'js', 'md', 'mdx'],
-  assetPrefix: isDev ? '' : 'https://embed-offset-fires.carbonplan.org',
+  assetPrefix: isDev ? '' : 'https://offset-fires-embed.carbonplan.org',
 }
