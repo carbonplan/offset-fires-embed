@@ -19,7 +19,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.setViewport({ height, width })
       await page.goto(baseUrl + '/')
       await page.waitForNetworkIdle()
-      const image = await page.screenshot()
+      const image = await page.screenshot({ fullPage: true })
 
       expect(image).toMatchImageSnapshot(options)
     })
@@ -30,7 +30,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.setViewport({ height, width })
       await page.goto(baseUrl + '/embed/future-risk')
       await page.waitForNetworkIdle()
-      const image = await page.screenshot()
+      const image = await page.screenshot({ fullPage: true })
 
       expect(image).toMatchImageSnapshot(options)
     })
@@ -41,7 +41,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.setViewport({ height, width })
       await page.goto(baseUrl + '/embed/project-fires')
       await page.waitForNetworkIdle()
-      const image = await page.screenshot()
+      const image = await page.screenshot({ fullPage: true })
 
       expect(image).toMatchImageSnapshot(options)
     })
