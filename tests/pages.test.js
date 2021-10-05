@@ -6,9 +6,9 @@ const options = {
   allowSizeMismatch: true,
 }
 const viewports = [
-  { description: 'laptop', width: 1440, height: 1 },
-  { description: 'tablet', width: 768, height: 1 },
-  { description: 'mobile', width: 425, height: 1 },
+  { description: 'laptop', width: 1440, height: 1440 },
+  { description: 'tablet', width: 768, height: 768 },
+  { description: 'mobile', width: 425, height: 425 },
 ]
 
 const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000'
@@ -21,7 +21,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.setViewport({ height, width })
       await page.goto(baseUrl + '/')
       await page.waitForNetworkIdle()
-      const image = await page.screenshot({ fullPage: true })
+      const image = await page.screenshot()
 
       expect(image).toMatchImageSnapshot(options)
     })
@@ -32,7 +32,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.setViewport({ height, width })
       await page.goto(baseUrl + '/embed/future-risk')
       await page.waitForNetworkIdle()
-      const image = await page.screenshot({ fullPage: true })
+      const image = await page.screenshot()
 
       expect(image).toMatchImageSnapshot(options)
     })
@@ -43,7 +43,7 @@ viewports.forEach(({ description, height, width }) => {
       await page.setViewport({ height, width })
       await page.goto(baseUrl + '/embed/project-fires')
       await page.waitForNetworkIdle()
-      const image = await page.screenshot({ fullPage: true })
+      const image = await page.screenshot()
 
       expect(image).toMatchImageSnapshot(options)
     })
