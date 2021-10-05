@@ -67,7 +67,7 @@ const Index = () => {
                     iframe.height =
                       iframe.contentWindow.document.body.offsetHeight + 1 + 'px'
                   }}
-                  src='/embed/project-fires'
+                  src='/embed/offset-fires/project-overlap'
                   sx={{
                     display: 'block',
                     width: ['100%', '100%', '100%', '1024px'],
@@ -115,7 +115,7 @@ const Index = () => {
                 <Box
                   as='iframe'
                   id='figure-3'
-                  src='/embed/future-risk'
+                  src='/embed/offset-fires/future-risk'
                   scrolling='no'
                   height='750px'
                   onLoad={(event) => {
