@@ -22,6 +22,7 @@ routes.forEach((route) => {
 
         expect(image).toMatchImageSnapshot({
           allowSizeMismatch: true,
+          blur: 2,
           customSnapshotIdentifier: `${
             route === '/' ? 'demo' : route
           }-${description}`,
