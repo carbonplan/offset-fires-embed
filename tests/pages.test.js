@@ -1,6 +1,4 @@
-import { toMatchImageSnapshot } from 'jest-image-snapshot'
-const puppeteer = require('puppeteer')
-expect.extend({ toMatchImageSnapshot })
+import puppeteer from 'puppeteer'
 
 const options = {
   allowSizeMismatch: true,
