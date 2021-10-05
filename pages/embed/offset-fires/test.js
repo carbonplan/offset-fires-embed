@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react'
 import { Box, Themed } from 'theme-ui'
 import { Row, Column } from '@carbonplan/components'
-import Layout from '../components/layout'
+import Layout from '../../../components/layout'
 
 const Index = () => {
   useEffect(() => {
