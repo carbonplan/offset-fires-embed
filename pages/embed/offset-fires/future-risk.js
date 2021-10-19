@@ -18,6 +18,9 @@ const keyToScenario = {
   m: 'ssp370',
 }
 
+const prefix =
+  'https://storage.googleapis.com/carbonplan-research/offset-fires-embed/'
+
 const Legend = ({ value, label }) => {
   return (
     <Box>
@@ -73,8 +76,7 @@ const Index = () => {
   const [scenario, setScenario] = useState('l')
 
   useEffect(() => {
-    const uri =
-      'https://carbonplan-scratch.s3.us-west-2.amazonaws.com/grist/relative_fire_risk.zarr'
+    const uri = prefix + 'relative_fire_risk_v3.zarr'
     zarr().loadGroup(
       uri,
       (err, res) => {
@@ -85,8 +87,7 @@ const Index = () => {
   }, [])
 
   useEffect(() => {
-    const prefix = 'https://storage.googleapis.com/carbonplan-data/'
-    const url = prefix + 'raw/us-atlas/conus-albers-simplified.json'
+    const url = prefix + 'conus-albers-simplified.json'
     json(url).then((us) => {
       setPath(geoPath()(feature(us, us.objects.states)))
     })

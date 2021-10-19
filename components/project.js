@@ -6,6 +6,9 @@ import { useSpring, animated } from '@react-spring/web'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
 import { feature } from 'topojson-client'
 
+const prefix =
+  'https://storage.googleapis.com/carbonplan-research/offset-fires/grist/projects/'
+
 const Project = ({
   data,
   year,
@@ -44,8 +47,6 @@ const Project = ({
   useEffect(() => {
     const { id } = data
     if (showStates && !states) return
-    const prefix =
-      'https://storage.googleapis.com/carbonplan-research/offset-fires/grist/projects/'
     const url = prefix + `${id}/shape_v9.json`
 
     json(url).then((data) => {
