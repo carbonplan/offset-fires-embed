@@ -4,6 +4,7 @@ loadEnvConfig(process.env.PWD)
 
 const config = {
   verbose: true,
+  modulePathIgnorePatterns: ['pages/embed/offset-fires/'],
   setupFilesAfterEnv: ['./jest.setup.js'],
   transform: {
     /* Use babel-jest to transpile tests with the next/babel preset
