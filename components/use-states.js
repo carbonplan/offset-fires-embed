@@ -7,7 +7,7 @@ const useStates = () => {
 
   useEffect(() => {
     const prefix =
-      'https://storage.googleapis.com/carbonplan-data/raw/us-atlas/'
+      'https://storage.googleapis.com/carbonplan-research/offset-fires-embed/'
     const url = prefix + 'states-10m.json'
     json(url).then((us) => {
       setStates(feature(us, us.objects.states))

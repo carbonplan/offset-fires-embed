@@ -5,7 +5,7 @@ const theme = (embed) => {
   if (embed == 'small') {
     breakpoints = ['30em', '40em', '60em']
   } else if (embed == 'medium') {
-    breakpoints = ['35em', '80em', '80em']
+    breakpoints = ['40.063em', '80em', '80em']
   } else {
     breakpoints = ['40em', '66.875em', '90em']
   }

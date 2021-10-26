@@ -8,7 +8,7 @@ const projection = geoAlbersUsa().scale(1300).translate([487.5, 305])
 
 const Minimap = ({ data, states }) => {
   return (
-    <Box sx={{ pl: [0, 0, 8, 8] }}>
+    <Box sx={{ pt: [2, 0, 0, 0], pl: [0, 0, 8, 8] }}>
       <Box
         as='svg'
         viewBox='0 0 975 500'

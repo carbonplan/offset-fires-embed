@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Box, Flex } from 'theme-ui'
 import { Row, Column, Slider } from '@carbonplan/components'
-import Layout from '../../components/layout'
-import Minimap from '../../components/minimap'
-import Project from '../../components/project'
-import useStates from '../../components/use-states'
+import Layout from '../../../components/layout'
+import Minimap from '../../../components/minimap'
+import Project from '../../../components/project'
+import useStates from '../../../components/use-states'
 
 const projects = [
   {
@@ -55,6 +55,27 @@ const Index = () => {
   const [sliderChanging, setSliderChanging] = useState(false)
   const states = useStates()
 
+  useEffect(() => {
+    const resize = () => {
+      if (document.body.clientWidth > 641) {
+        const target = document.getElementById('project-0')
+        const targetSvg = document.getElementById('project-0-svg')
+        const ref1 = document.getElementById('project-1')
+        const ref2 = document.getElementById('project-2')
+        const offset = 68
+        const newHeight = offset + ref1.offsetHeight + ref2.offsetHeight
+        const newSvgHeight = 0.5 * (newHeight - 48 - targetSvg.clientHeight)
+        target.style.height = newHeight + 'px'
+        targetSvg.style.marginTop = newSvgHeight + 'px'
+      } else {
+        const target = document.getElementById('project-0')
+        target.style.height = 'auto'
+      }
+    }
+    resize()
+    window.onresize = resize
+  }, [])
+
   return (
     <Layout embed='medium'>
       <Box sx={{ width: '100%', height: '100%', bg: 'background', p: [5] }}>
@@ -95,6 +116,7 @@ const Index = () => {
         <Row columns={[1, 3, 3, 3]}>
           <Column start={1} width={[1, 2, 2, 2]}>
             <Project
+              id={'project-0'}
               data={projects[0]}
               states={states}
               year={year}
@@ -105,12 +127,14 @@ const Index = () => {
           </Column>
           <Column start={[1, 3, 3, 3]} width={1}>
             <Project
+              id={'project-1'}
               data={projects[1]}
               states={states}
               year={year}
               zoom={zoom}
             />
             <Project
+              id={'project-2'}
               data={projects[2]}
               states={states}
               year={year}
@@ -288,7 +312,7 @@ const Index = () => {
                   textTransform: 'uppercase',
                   fontFamily: 'heading',
                   letterSpacing: 'smallcaps',
-                  mt: [5, '-2px', '-2px', '-2px'],
+                  mt: [6, '-2px', '-2px', '7px'],
                   pr: [2],
                 }}
               >
@@ -309,7 +333,7 @@ const Index = () => {
                   textTransform: 'uppercase',
                   fontFamily: 'body',
                   letterSpacing: 'smallcaps',
-                  mt: ['20px', '-14px', '-14px', '-14px'],
+                  mt: ['36px', '-14px', '-14px', '-14px'],
                   px: [2],
                   fontSize: [5, 5, 5, 6],
                   transition: 'color 0.15s',
@@ -337,7 +361,7 @@ const Index = () => {
                   textTransform: 'uppercase',
                   fontFamily: 'body',
                   letterSpacing: 'smallcaps',
-                  mt: ['20px', '-14px', '-14px', '-14px'],
+                  mt: ['36px', '-14px', '-14px', '-14px'],
                   px: [2],
                   fontSize: [5, 5, 5, 6],
                   transition: 'color 0.15s',

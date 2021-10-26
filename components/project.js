@@ -6,11 +6,15 @@ import { useSpring, animated } from '@react-spring/web'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
 import { feature } from 'topojson-client'
 
+const prefix =
+  'https://storage.googleapis.com/carbonplan-research/offset-fires/grist/projects/'
+
 const Project = ({
   data,
   year,
   zoom,
   states,
+  id,
   height = 140,
   showStates = true,
   showStartDate = true,
@@ -38,12 +42,11 @@ const Project = ({
     opacity: zoom === 'far' ? 1 : 0,
   })
 
-  const { number, id, name } = data
+  const { number, name } = data
 
   useEffect(() => {
+    const { id } = data
     if (showStates && !states) return
-    const prefix =
-      'https://storage.googleapis.com/carbonplan-research/offset-fires/grist/projects/'
     const url = prefix + `${id}/shape_v9.json`
 
     json(url).then((data) => {
@@ -90,12 +93,13 @@ const Project = ({
           >
             {number}
           </Box>
-          <Box as='span' sx={{ pl: [2], fontSize: [3, 4, 4, 5] }}>
+          <Box as='span' sx={{ pl: [2], fontSize: [3, 4, 4, 4] }}>
             {name}
           </Box>
         </Box>
       )}
       <Box
+        id={id}
         sx={{
           mt: [2],
           mb: [4],
@@ -103,15 +107,20 @@ const Project = ({
           borderRadius: '1px',
           height: [
             'auto',
-            stretch ? 'calc(100% - 72px)' : 'auto',
-            stretch ? 'calc(100% - 72px)' : 'auto',
-            stretch ? 'calc(100% - 72px)' : 'auto',
+            stretch ? 'calc(100% - 68px)' : 'auto',
+            stretch ? 'calc(100% - 68px)' : 'auto',
+            stretch ? 'calc(100% - 68px)' : 'auto',
           ],
           border: ({ colors }) =>
             border ? `solid 1px ${colors.muted}` : 'none',
         }}
       >
-        <Box as='svg' viewBox={`0 0 400 ${height}`} sx={{ mb: '-4px' }}>
+        <Box
+          id={id + '-svg'}
+          as='svg'
+          viewBox={`0 0 400 ${height}`}
+          sx={{ mb: '-4px' }}
+        >
           <animated.g transform={transform}>
             <g strokeLinejoin='round' strokeLinecap='round'>
               <path
@@ -206,9 +215,11 @@ const Project = ({
                 }}
               >
                 {metadata &&
-                ((100 * metadata?.burned_acreage) / metadata?.acreage < 1
-                  ? '<1%'
-                  : format('.0%')(metadata?.burned_acreage / metadata?.acreage))}
+                  ((100 * metadata?.burned_acreage) / metadata?.acreage < 1
+                    ? '<1%'
+                    : format('.0%')(
+                        metadata?.burned_acreage / metadata?.acreage
+                      ))}
               </Box>
             </Box>
           )}
