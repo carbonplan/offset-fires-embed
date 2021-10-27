@@ -7,8 +7,7 @@ import { geoPath, geoAlbersUsa } from 'd3-geo'
 import { feature } from 'topojson-client'
 
 const version = 'v10'
-const prefix =
-  `https://storage.googleapis.com/carbonplan-research/offset-fires-embed/projects_${version}/`
+const prefix = `https://storage.googleapis.com/carbonplan-research/offset-fires-embed/projects_${version}/`
 
 const Project = ({
   data,
@@ -25,7 +24,7 @@ const Project = ({
   stretch = false,
   zoomFarScale = 0.3,
   zoomFarTranslateX = 500,
-  zoomFarTranslateY = 1.3
+  zoomFarTranslateY = 1.3,
 }) => {
   const [projectPath, setProjectPath] = useState()
   const [firePaths, setFirePaths] = useState({})
@@ -42,7 +41,9 @@ const Project = ({
     transform:
       zoom === 'near'
         ? 'scale(1) translate(0,0)'
-        : `scale(${zoomFarScale}) translate(${zoomFarTranslateX},${height * zoomFarTranslateY})`,
+        : `scale(${zoomFarScale}) translate(${zoomFarTranslateX},${
+            height * zoomFarTranslateY
+          })`,
     opacity: zoom === 'far' ? 1 : 0,
   })
 
@@ -71,7 +72,10 @@ const Project = ({
       if (showStates) setStatesPath(geoPath().projection(projection)(states))
       const fireUrl = prefix + `${id}/fires-topo-quantized.json`
       json(fireUrl).then((fireTopology) => {
-        const fireData = feature(fireTopology, fireTopology.objects[`fires_${version}`])
+        const fireData = feature(
+          fireTopology,
+          fireTopology.objects[`fires_${version}`]
+        )
         const firePathsTmp = {}
         Array(38)
           .fill(0)
@@ -126,7 +130,7 @@ const Project = ({
           id={id + '-svg'}
           as='svg'
           viewBox={`0 0 400 ${height}`}
-          sx={{ mb: '-4px', overflow: 'hidden', }}
+          sx={{ mb: '-4px', overflow: 'hidden' }}
         >
           <animated.g transform={transform}>
             <g strokeLinejoin='round' strokeLinecap='round'>
