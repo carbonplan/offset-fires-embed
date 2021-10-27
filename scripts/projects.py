@@ -169,7 +169,7 @@ def get_project_fire_stats(fires, opr_id, start_dt, termination_dt):
 
     project_fires = geopandas.sjoin(eligible_fires, geom.to_crs(fires.crs))
     intersect_fires = geopandas.clip(project_fires, geom.to_crs(fires.crs))
-    burned_acres = intersect_fires.unary_union.area / m2_to_acre # each acre can only burn once
+    burned_acres = intersect_fires.unary_union.area / m2_to_acre  # each acre can only burn once
     return (len(intersect_fires), burned_acres)
 
 
