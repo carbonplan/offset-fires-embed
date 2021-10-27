@@ -103,7 +103,7 @@ const Index = () => {
                 sx={{ display: ['none', 'unset', 'unset', 'unset'] }}
               >
                 <br />
-              </Box>
+              </Box>{' '}
               and fires
             </Box>
             <Box
