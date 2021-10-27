@@ -8,7 +8,7 @@ const Layout = ({ children, embed }) => {
       <Head>
         <script
           type='text/javascript'
-          src='/iframeResizer.contentWindow.min.js'
+          src='/embed/offset-fires/iframeResizer.contentWindow.min.js'
         />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
       </Head>
