@@ -20,6 +20,8 @@
 
 Note: the graphics included in this project are being used in production. We do not anticipate substantive changes to this project going forward.
 
+This repo includes two interactive graphics and processing scripts / notebooks to generate those graphics (inside [`notebooks`](/notebooks) and [`scripts`](/scripts)).
+
 ## to build the site locally
 
 Assuming you already have `Node.js` installed, you can install the build dependencies with:
