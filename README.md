@@ -13,6 +13,8 @@
 [actions]: https://github.com/carbonplan/offset-fires-embed/actions/workflows/main.yml
 [mit license]: https://badgen.net/badge/license/MIT/blue
 
+Note: the graphics included in this project are being used in production. We do not anticipate substantive changes to this project going forward.
+
 ## to build the site locally
 
 Assuming you already have `Node.js` installed, you can install the build dependencies with:
