@@ -1,3 +1,8 @@
+<img
+  src='https://carbonplan-assets.s3.amazonaws.com/monogram/dark-small.png'
+  height='48'
+/>
+
 # carbonplan / offset-fires-embed
 
 **visualizing and analyzing fires in forest offset projects**
