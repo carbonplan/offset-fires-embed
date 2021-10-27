@@ -393,8 +393,8 @@ const Index = () => {
         </Row>
         <Box sx={{ mt: [6], fontSize: [0, 0, 0, 1] }}>
           Fire perimeters from the Monitoring Trends in Burn Severity database
-          (1984 through 2018) and from National Interagency Fire Center (2019
-          and 2020).
+          (1984 through 2019) and from National Interagency Fire Center (2020
+          and 2021).
         </Box>
         <Box
           sx={{ color: 'secondary', fontSize: [0, 0, 0, 1], mt: [3], mb: [0] }}
