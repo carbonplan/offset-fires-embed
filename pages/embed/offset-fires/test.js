@@ -70,10 +70,9 @@ const Index = () => {
                   src='/embed/offset-fires/project-overlap'
                   sx={{
                     display: 'block',
-                    width: ['100%', '100%', '100%', '1024px'],
-                    maxWidth: '1024px',
-                    mr: [0, 'auto', 0, 0],
-                    ml: [0, 'auto', 0, 'calc(-300px - 3vw)'],
+                    width: '100%',
+                    maxWidth: '650px',
+                    mx: 'auto',
                     my: [7],
                     border: 'none',
                   }}
@@ -126,7 +125,7 @@ const Index = () => {
                   sx={{
                     display: 'block',
                     width: '100%',
-                    maxWidth: '600px',
+                    maxWidth: '650px',
                     mx: 'auto',
                     my: [7],
                     border: 'none',

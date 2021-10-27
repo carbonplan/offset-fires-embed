@@ -1,6 +1,13 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Box, Flex } from 'theme-ui'
-import { Slider, Tag, Row, Column } from '@carbonplan/components'
+import {
+  Slider,
+  Tag,
+  Row,
+  Monogram,
+  Link,
+  Column,
+} from '@carbonplan/components'
 import zarr from 'zarr-js'
 import { json } from 'd3-fetch'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
@@ -153,11 +160,11 @@ const Index = () => {
             pb: [5],
           }}
         >
-          Here we show future fire risk relative to some of the country's
+          Below, we show future fire risk relative to some of the United States’
           historically highest-risk forests. By the end of the 21st century,
-          even under a low emissions scenario, risks to forests in much of the
-          Western US are projected to increase by 5x compared to current risk in
-          California.*
+          even under a low-emissions scenario (SSP2-4.5), risks to forests in
+          much of the Western US are projected to increase by 500 percent
+          compared to the current risk in California.*
         </Box>
 
         <Row columns={[6]}>
@@ -323,9 +330,23 @@ const Index = () => {
           </Box>
         </Flex>
         <Box sx={{ mt: [6], fontSize: [0, 0, 0, 1] }}>
-          * We define a baseline as the 97th percentile of risk across US
-          forests over 1990-2019, which is roughly equivalent to the risk in
-          California — a notably high-risk region — over that period.
+          * We define a baseline as the 97th percentile of risk across U.S.
+          forests from 1990 to 2019, which is roughly equivalent to the risk in
+          California — a notably high-risk region — over that same time period.
+        </Box>
+        <Box
+          sx={{ color: 'secondary', fontSize: [0, 0, 0, 1], mt: [3], mb: [0] }}
+        >
+          Graphics and analysis by CarbonPlan{' '}
+          <Monogram
+            sx={{
+              color: 'primary',
+              position: 'relative',
+              left: '4px',
+              top: '5px',
+              width: 18,
+            }}
+          />
         </Box>
       </Box>
     </Layout>

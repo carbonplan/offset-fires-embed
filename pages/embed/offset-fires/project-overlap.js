@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Box, Flex } from 'theme-ui'
-import { Row, Column, Slider } from '@carbonplan/components'
+import { Row, Column, Monogram, Slider } from '@carbonplan/components'
 import Layout from '../../../components/layout'
 import Minimap from '../../../components/minimap'
 import Project from '../../../components/project'
@@ -78,7 +78,16 @@ const Index = () => {
 
   return (
     <Layout embed='medium'>
-      <Box sx={{ width: '100%', height: '100%', bg: 'background', p: [5] }}>
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          bg: 'background',
+          px: [5],
+          pb: [5],
+          pt: [4],
+        }}
+      >
         <Row columns={[2, 3, 3, 3]} sx={{ mb: [4] }}>
           <Column start={1} width={[2, 2, 2, 2]}>
             <Box
@@ -88,7 +97,14 @@ const Index = () => {
                 fontSize: [4, 5, 5, 5],
               }}
             >
-              Offset projects and fires
+              Offset projects
+              <Box
+                as='span'
+                sx={{ display: ['none', 'unset', 'unset', 'unset'] }}
+              >
+                <br />
+              </Box>
+              and fires
             </Box>
             <Box
               sx={{
@@ -99,14 +115,12 @@ const Index = () => {
               }}
             >
               Several forest offset projects in California, Oregon, and
-              Washington are in locations with a record of historical fire, and
-              many have experienced fires. Red regions show fires during the
-              year selected using the slider at the bottom. White regions show
-              projects and turn gray if the start date is before the selected
-              year. Burn area is the fraction of the project burned during its
-              lifetime. The plus and minus zooms in and out for spatial context.
-              Fire perimeters from the MTBS database (1984 through 2018) and
-              from NIFC (2019 and 2020).
+              Washington are in locations with a record of historical fire. And
+              many have experienced fires. Below, red regions show fires during
+              the year selected using the slider at the bottom. White regions
+              show projects and turn gray if the selected year is before the
+              project’s start date. “Burn area” refers to the fraction of the
+              project burned during its lifetime.
             </Box>
           </Column>
           <Column start={[1, 3, 3, 3]} width={[2, 1, 1, 1]}>
@@ -377,6 +391,25 @@ const Index = () => {
             </Flex>
           </Column>
         </Row>
+        <Box sx={{ mt: [6], fontSize: [0, 0, 0, 1] }}>
+          Fire perimeters from the Monitoring Trends in Burn Severity database
+          (1984 through 2018) and from National Interagency Fire Center (2019
+          and 2020).
+        </Box>
+        <Box
+          sx={{ color: 'secondary', fontSize: [0, 0, 0, 1], mt: [3], mb: [0] }}
+        >
+          Graphics and analysis by CarbonPlan{' '}
+          <Monogram
+            sx={{
+              color: 'primary',
+              position: 'relative',
+              left: '4px',
+              top: '5px',
+              width: 18,
+            }}
+          />
+        </Box>
       </Box>
     </Layout>
   )
