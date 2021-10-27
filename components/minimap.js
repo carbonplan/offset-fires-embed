@@ -11,7 +11,7 @@ const Minimap = ({ data, states }) => {
     <Box sx={{ pt: [2, 0, 0, 0], pl: [0, 0, 8, 8] }}>
       <Box
         as='svg'
-        viewBox='0 0 975 500'
+        viewBox='0 0 600 500'
         sx={{ stroke: 'primary', fill: 'none' }}
       >
         <g
@@ -38,7 +38,7 @@ const Minimap = ({ data, states }) => {
                   stroke: 'none',
                   fill: 'secondary',
                   fontFamily: 'mono',
-                  fontSize: [4],
+                  fontSize: [2, 4, 4, 4],
                 }}
                 dx={-7}
                 dy={9}

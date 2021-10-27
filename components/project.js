@@ -6,8 +6,9 @@ import { useSpring, animated } from '@react-spring/web'
 import { geoPath, geoAlbersUsa } from 'd3-geo'
 import { feature } from 'topojson-client'
 
+const version = 'v10'
 const prefix =
-  'https://storage.googleapis.com/carbonplan-research/offset-fires/grist/projects/'
+  `https://storage.googleapis.com/carbonplan-research/offset-fires-embed/projects_${version}/`
 
 const Project = ({
   data,
@@ -22,6 +23,9 @@ const Project = ({
   label = true,
   border = true,
   stretch = false,
+  zoomFarScale = 0.3,
+  zoomFarTranslateX = 500,
+  zoomFarTranslateY = 1.3
 }) => {
   const [projectPath, setProjectPath] = useState()
   const [firePaths, setFirePaths] = useState({})
@@ -38,7 +42,7 @@ const Project = ({
     transform:
       zoom === 'near'
         ? 'scale(1) translate(0,0)'
-        : `scale(0.3) translate(500,${height * 1.3})`,
+        : `scale(${zoomFarScale}) translate(${zoomFarTranslateX},${height * zoomFarTranslateY})`,
     opacity: zoom === 'far' ? 1 : 0,
   })
 
@@ -47,9 +51,10 @@ const Project = ({
   useEffect(() => {
     const { id } = data
     if (showStates && !states) return
-    const url = prefix + `${id}/shape_v9.json`
+    const url = prefix + `${id}/shape-topo-quantized.json`
 
-    json(url).then((data) => {
+    json(url).then((topology) => {
+      const data = feature(topology, topology.objects[`shape_${version}`])
       if (setMetadata) setMetadata(data.features[0].properties)
       const projection = geoAlbersUsa().fitExtent(
         [
@@ -64,8 +69,9 @@ const Project = ({
         geoPath().projection(projection)(data.features[0].geometry)
       )
       if (showStates) setStatesPath(geoPath().projection(projection)(states))
-      const fireUrl = prefix + `${id}/fires_v9.json`
-      json(fireUrl).then((fireData) => {
+      const fireUrl = prefix + `${id}/fires-topo-quantized.json`
+      json(fireUrl).then((fireTopology) => {
+        const fireData = feature(fireTopology, fireTopology.objects[`fires_${version}`])
         const firePathsTmp = {}
         Array(38)
           .fill(0)
@@ -101,6 +107,7 @@ const Project = ({
       <Box
         id={id}
         sx={{
+          overflow: 'hidden',
           mt: [2],
           mb: [4],
           position: 'relative',
@@ -119,7 +126,7 @@ const Project = ({
           id={id + '-svg'}
           as='svg'
           viewBox={`0 0 400 ${height}`}
-          sx={{ mb: '-4px' }}
+          sx={{ mb: '-4px', overflow: 'hidden', }}
         >
           <animated.g transform={transform}>
             <g strokeLinejoin='round' strokeLinecap='round'>

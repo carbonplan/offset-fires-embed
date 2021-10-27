@@ -135,7 +135,7 @@ const Index = () => {
               states={states}
               year={year}
               zoom={zoom}
-              height={210.5}
+              height={254.5}
               stretch
             />
           </Column>
@@ -153,6 +153,9 @@ const Index = () => {
               states={states}
               year={year}
               zoom={zoom}
+              zoomFarScale={0.6}
+              zoomFarTranslateX={150}
+              zoomFarTranslateY={0.5}
             />
           </Column>
           <Column start={[1, 3, 3, 3]} width={1}></Column>
