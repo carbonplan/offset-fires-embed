@@ -1,4 +1,5 @@
 import Document, { Html, Main, NextScript, Head } from 'next/document'
+import { Tracking } from '@carbonplan/components'
 import { InitializeColorMode } from 'theme-ui'
 
 class MyDocument extends Document {
@@ -10,11 +11,7 @@ class MyDocument extends Document {
         className='no-focus-outline'
       >
         <Head>
-          <script
-            defer
-            data-domain='carbonplan.org'
-            src='https://plausible.io/js/script.js'
-          />
+          <Tracking />
         </Head>
         <body>
           <InitializeColorMode />
