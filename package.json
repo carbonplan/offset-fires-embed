@@ -4,9 +4,9 @@
   "description": "tracking and visualizing fires in offset projects",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' next",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' next build",
+    "start": "NODE_OPTIONS='--openssl-legacy-provider' next start"
   },
   "author": "freeman-lab",
   "license": "MIT",
