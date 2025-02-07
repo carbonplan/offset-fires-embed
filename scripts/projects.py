@@ -177,7 +177,6 @@ def get_project_fire_stats(fires, opr_id, start_dt, termination_dt):
 @click.option("--upload-to", type=str, default=None, help="Where to put the workflow contents")
 @click.option("--version", type=int, default=0, help="Version to append")
 def main(upload_to, version):
-
     print("loading fire data")
     fires = load_fires()
 
