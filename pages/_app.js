@@ -10,7 +10,6 @@ export default function App({ Component, pageProps }) {
       <Component {...pageProps} />
       {process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' && (
         <Script
-          strategy='lazyOnload'
           data-domain='carbonplan.org'
           data-api='https://carbonplan.org/proxy/api/event'
           src='https://carbonplan.org/js/script.file-downloads.outbound-links.js'
