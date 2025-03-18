@@ -89,7 +89,7 @@ const Index = () => {
       (err, res) => {
         setData(res)
       },
-      ['ssp245', 'ssp370', 'ssp585', 'lat', 'lon']
+      ['ssp245', 'ssp370', 'ssp585', 'lat', 'lon'],
     )
   }, [])
 
@@ -118,7 +118,7 @@ const Index = () => {
               out[s][k].push(val)
               if (s === scenarios[0] && k === 0) {
                 coords.push(
-                  projection([data['lon'].get(i, j), data['lat'].get(i, j)])
+                  projection([data['lon'].get(i, j), data['lat'].get(i, j)]),
                 )
               }
             }

@@ -62,26 +62,26 @@ const Project = ({
           [20, 20],
           [380, height - 20],
         ],
-        data.features[0].geometry
+        data.features[0].geometry,
       )
       setStartDate(data.features[0].properties.start_date)
       setStartYear(parseInt(data.features[0].properties.start_date.slice(0, 4)))
       setProjectPath(
-        geoPath().projection(projection)(data.features[0].geometry)
+        geoPath().projection(projection)(data.features[0].geometry),
       )
       if (showStates) setStatesPath(geoPath().projection(projection)(states))
       const fireUrl = prefix + `${id}/fires-topo-quantized.json`
       json(fireUrl).then((fireTopology) => {
         const fireData = feature(
           fireTopology,
-          fireTopology.objects[`fires_${version}`]
+          fireTopology.objects[`fires_${version}`],
         )
         const firePathsTmp = {}
         Array(38)
           .fill(0)
           .map((d, i) => {
             firePathsTmp[i] = geoPath().projection(projection)(
-              fireData.features[i].geometry
+              fireData.features[i].geometry,
             )
           })
         setFirePaths(firePathsTmp)
@@ -229,7 +229,7 @@ const Project = ({
                   ((100 * metadata?.burned_acreage) / metadata?.acreage < 1
                     ? '<1%'
                     : format('.0%')(
-                        metadata?.burned_acreage / metadata?.acreage
+                        metadata?.burned_acreage / metadata?.acreage,
                       ))}
               </Box>
             </Box>
