@@ -47,7 +47,7 @@ termination_dates = {"CAR1046": "9/12/2017"}
 @lru_cache
 def load_project_db():
     retro_uri = requests.get(
-        "https://carbonplan.blob.core.windows.net/carbonplan-forests/offsets/database/forest-offsets-database-v1.0.json"
+        "https://carbonplan-forests.s3.us-west-2.amazonaws.com/offsets/database/forest-offsets-database-v1.0.json"
     )
     retro_json = retro_uri.json()
     return retro_json
